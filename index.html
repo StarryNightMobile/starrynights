@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Starry Mobile — Store</title>
+<link rel="stylesheet" href="style.css">
+</head><body class="light">
+<header class="header">
+  <img src="logo.jpg" class="logo" alt="Logo">
+  <h1>Starry Mobile</h1>
+  <div class="header-actions">
+    <button id="modeToggle" class="btn">Toggle Dark/Light</button>
+    <a href="admin.html" class="btn">Admin</a>
+    <button id="viewCart" class="btn">Cart (<span id="cartCount">0</span>)</button>
+  </div>
+</header>
+<main class="wrap">
+  <div class="controls">
+    <input id="searchBox" placeholder="Search phones..." class="search">
+    <div class="categories">
+      <button onclick="filterCategory('all')">All</button>
+      <button onclick="filterCategory('iPhone')">iPhone</button>
+      <button onclick="filterCategory('Samsung')">Samsung</button>
+      <button onclick="filterCategory('Pixel')">Pixel</button>
+    </div>
+  </div>
+  <section id="phoneList" class="products"></section>
+</main>
+
+<!-- Cart Modal -->
+<div id="cartModal" class="modal hidden">
+  <div class="modal-panel">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <p><strong>Delivery:</strong>
+      <select id="deliverySelect">
+        <option value="0">Pickup (Free)</option>
+        <option value="5">Harare Delivery — $5</option>
+        <option value="10">Outside Harare — $10</option>
+      </select>
+    </p>
+    <p>Total: <strong id="cartTotal">US $0</strong></p>
+    <div class="form-actions">
+      <button id="checkoutUSD" class="btn primary">Pay Cash USD</button>
+      <button id="checkoutEco" class="btn">Pay with EcoCash</button>
+      <button id="paynowBtn" class="btn">Paynow/EcoCash</button>
+      <button id="stripeCheckoutBtn" class="btn primary">Pay with Card (Stripe)</button>
+      <button id="checkoutWa" class="btn">Order via WhatsApp</button>
+      <button id="closeCart" class="btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- WhatsApp Modal -->
+<div id="waModal" class="modal hidden">
+  <div class="modal-panel">
+    <h2>WhatsApp Order</h2>
+    <form id="waForm">
+      <label>Name<input name="name" required></label>
+      <label>Phone<input name="contact" required></label>
+      <label>Email<input name="email"></label>
+      <label>Notes<textarea name="notes"></textarea></label>
+      <div class="form-actions">
+        <button type="submit" class="btn primary">Send WhatsApp</button>
+        <button type="button" onclick="closeWaModal()" class="btn">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="footer">
+  EcoCash: <strong>0785436552</strong>. WhatsApp orders: +263 263777045219.
+</footer>
+
+<script src="script.js"></script>
+</body></html>
