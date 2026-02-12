@@ -17,6 +17,6 @@ Complete e-commerce storefront with:
 
 ## Deployment
 1. Push to GitHub
-2. Connect to Netlify
+2. Connect to Netlifyy6px
 3. Add environment variables
 4. Deploy
