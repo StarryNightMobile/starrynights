@@ -4,36 +4,33 @@ exports.handler = async (event) => {
   try {
       const { amount, phone, email } = JSON.parse(event.body);
 
-          const PAYNOW_INTEGRATION_ID = process.env.PAYNOW_ID;
-              const PAYNOW_INTEGRATION_KEY = process.env.PAYNOW_KEY;
+          const PAYNOW_ID = process.env.PAYNOW_ID;
+              const PAYNOW_KEY = process.env.PAYNOW_KEY;
 
-                  const paymentData = {
-                        id: PAYNOW_INTEGRATION_ID,
-                              key: PAYNOW_INTEGRATION_KEY,
-                                    amount: amount,
-                                          phone: phone,
-                                                email: email,
-                                                      method: "ecocash",
-                                                            returnurl: "https://starrmobiles.netlify.app/success",
-                                                                  resulturl: "https://starrmobiles.netlify.app/success",
-                                                                      };
+                  const formattedPhone = phone
+                        .replace("+", "")
+                              .replace(/^0/, "263");
 
-                                                                          const response = await axios.post(
-                                                                                "https://www.paynow.co.zw/interface/initiatetransaction",
-                                                                                      paymentData
-                                                                                          );
+                                  const paymentData = {
+                                        id: PAYNOW_ID,
+                                              key: PAYNOW_KEY,
+                                                    amount,
+                                                          phone: formattedPhone,
+                                                                email,
+                                                                      method: "ecocash",
+                                                                            returnurl: "https://starrmobiles.netlify.app/success",
+                                                                                  resulturl: "https://starrmobiles.netlify.app/.netlify/functions/verify",
+                                                                                      };
 
-                                                                                              return {
-                                                                                                    statusCode: 200,
-                                                                                                          body: JSON.stringify({
-                                                                                                                  ok: true,
-                                                                                                                          paynow: response.data,
-                                                                                                                                }),
-                                                                                                                                    };
-                                                                                                                                      } catch (error) {
-                                                                                                                                          return {
-                                                                                                                                                statusCode: 500,
-                                                                                                                                                      body: JSON.stringify({ ok: false, error: error.message }),
-                                                                                                                                                          };
-                                                                                                                                                            }
-                                                                                                                                                            };
+                                                                                          const response = await axios.post(
+                                                                                                "https://www.paynow.co.zw/interface/initiatetransaction",
+                                                                                                      paymentData
+                                                                                                          );
+
+                                                                                                              if (response.data.status !== "Ok") {
+                                                                                                                    throw new Error(response.data.error);
+                                                                                                                        }
+
+                                                                                                                            return {
+                                                                                                                                  s
+                                                                                                                                  
