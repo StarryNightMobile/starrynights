@@ -68,7 +68,31 @@
 </div>
 
 <footer class="footer">
-  EcoCash: <strong>0785436552</strong>. WhatsApp orders: +263 263777045219.
+<button onclick="payNow()">Pay with EcoCash</button>
+
+<script>
+function payNow() {
+  fetch("/.netlify/functions/paynow", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      amount: 1,
+      phone: "0771234567",
+      email: "test@test.com"
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.ok) {
+      window.location.href = data.browserurl;
+    } else {
+      alert("Payment failed");
+    }
+  });
+}
+</script>. WhatsApp orders: +263 263777045219.
 </footer>
 
 <script src="script.js"></script>
