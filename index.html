@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starry Night Mobiles Shop</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; margin:0; background:#f2f2f2; }
+  header { text-align:center; padding:20px; background:#4CAF50; color:white; }
+  h1 { margin:0; }
+
+  /* Filters */
+  #filters { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; padding:20px; }
+  select, input[type="text"] { padding:10px; border-radius:5px; border:1px solid #ccc; min-width:150px; }
+
+  /* Shop grid */
+  #shop-container { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px; padding:20px; }
+
+  /* Product cards */
+  .product-card { background:white; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); padding:15px; text-align:center; position:relative; overflow:hidden; transition:transform 0.3s, box-shadow 0.3s; cursor:pointer; }
+  .product-card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
+  .product-card img { width:120px; height:120px; object-fit:contain; transition: transform 0.3s; }
+  .product-card:hover img { transform:scale(1.1); }
+  .product-card h4 { font-size:16px; margin:5px 0; }
+  .product-card p { margin:2px 0; font-size:14px; }
+  .product-card button { margin-top:10px; width:100%; padding:8px 12px; border:none; border-radius:5px; cursor:pointer; background:#4CAF50; color:white; font-weight:bold; transition:background 0.3s; }
+  .product-card button:hover { background:#45a049; }
+
+  /* Cart */
+  #cart { position:fixed; top:20px; right:20px; width:260px; background:white; padding:15px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.2); max-height:80vh; overflow-y:auto; }
+  #cart h3 { margin-top:0; }
+  #cart-items div { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+  #cart-items div button { padding:2px 6px; font-size:12px; }
+  #cart-total { font-weight:bold; }
+
+  /* Payment form */
+  #payment-form { margin-top:20px; padding:20px; background:white; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); max-width:400px; margin-left:auto; margin-right:auto; position:sticky; top:20px; }
+  #payment-form input { width:100%; margin-bottom:10px; padding:10px; border-radius:5px; border:1px solid #ccc; }
+  #payment-form button { width:100%; padding:12px; font-size:16px; background:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold; transition:background 0.3s; }
+  #payment-form button:hover { background:#45a049; }
+  #payment-message { text-align:center; margin-top:10px; color:red; }
+
+  @media(max-width:768px) {
+    #shop-container { grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); }
+    #cart { position:static; width:auto; margin:20px; }
+    #payment-form { position:static; margin:20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Starry Night Mobiles</h1>
+</header>
+
+<div id="filters">
+  <select id="brand-filter">
+    <option value="All">All Brands</option>
+    <option value="Apple">Apple</option>
+    <option value="Samsung">Samsung</option>
+    <option value="Google">Google</option>
+  </select>
+  <input type="text" id="search-bar" placeholder="Search by model...">
+</div>
+
+<div id="shop-container"></div>
+
+<div id="cart">
+  <h3>Cart</h3>
+  <div id="cart-items"></div>
+  <p>Total: $<span id="cart-total">0</span></p>
+</div>
+
+<div id="payment-form">
+  <h3 style="text-align:center;">Pay with EcoCash</h3>
+  <input type="text" id="phone" placeholder="Phone e.g. 0771234567">
+  <input type="email" id="email" placeholder="Email">
+  <button onclick="payNow()">Pay Now</button>
+  <p id="payment-message"></p>
+</div>
+
+<script>
+// ===== PRODUCTS =====
+const products = [
+  // Apple iPhones
+  { name:"iPhone X", price:350,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone XR", price:400,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone XS", price:420,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 11", price:500,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 11 Pro", price:650,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 12", price:700,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 12 Pro", price:850,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 13", price:900,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 13 Pro", price:1050,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 14", price:1100,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 14 Pro", price:1250,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 15", price:1400,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 15 Pro", price:1550,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 16", price:1750,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 16 Pro", price:1900,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 17", price:2000,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 17 Pro", price:2050,img:"https://via.placeholder.com/100",brand:"Apple" },
+  { name:"iPhone 17 Pro Max", price:2100,img:"https://via.placeholder.com/100",brand:"Apple" },
+
+  // Google Pixel
+  { name:"Pixel 6", price:340,img:"https://via.placeholder.com/100",brand:"Google" },
+  { name:"Pixel 6 Pro", price:420,img:"https://via.placeholder.com/100",brand:"Google" },
+  { name:"Pixel 7", price:500,img:"https://via.placeholder.com/100",brand:"Google" },
+  { name:"Pixel 7 Pro", price:600,img:"https://via.placeholder.com/100",brand:"Google" },
+  { name:"Pixel 8", price:780,img:"https://via.placeholder.com/100",brand:"Google" },
+  { name:"Pixel 8 Pro", price:890,img:"https://via.placeholder.com/100",brand:"Google" },
+  { name:"Pixel 9", price:950,img:"https://via.placeholder.com/100",brand:"Google" },
+  { name:"Pixel 9 Pro", price:1040,img:"https://via.placeholder.com/100",brand:"Google" },
+
+  // Samsung S series
+  { name:"Galaxy S10", price:300,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S20", price:350,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S21", price:450,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S22", price:500,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S23", price:550,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S24", price:600,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S20 Ultra", price:450,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S21 Ultra", price:650,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S22 Ultra", price:750,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S23 Ultra", price:900,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S24 Ultra", price:1000,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy S25 Ultra", price:1350,img:"https://via.placeholder.com/100",brand:"Samsung" },
+
+  // Samsung Flip series
+  { name:"Galaxy Z Flip3", price:850,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy Z Flip4", price:950,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy Z Flip5", price:1100,img:"https://via.placeholder.com/100",brand:"Samsung" },
+
+  // Samsung Fold series
+  { name:"Galaxy Z Fold3", price:1300,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy Z Fold4", price:1550,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy Z Fold5", price:1800,img:"https://via.placeholder.com/100",brand:"Samsung" },
+
+  // Samsung Note series
+  { name:"Galaxy Note 10", price:350,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy Note 10+", price:450,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy Note 20", price:550,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy Note 20 Ultra", price:750,img:"https://via.placeholder.com/100",brand:"Samsung" },
+
+  // Samsung A series
+  { name:"Galaxy A72", price:350,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy A52", price:290,img:"https://via.placeholder.com/100",brand:"Samsung" },
+  { name:"Galaxy A32", price:220,img:"https://via.placeholder.com/100",brand:"Samsung" }
+];
+
+// ===== SHOP LOGIC =====
+const shopContainer=document.getElementById('shop-container');
+const cartItemsContainer=document.getElementById('cart-items');
+const cartTotalEl=document.getElementById('cart-total');
+let cart=[];
+
+function renderProducts(){
+  const brandFilter=document.getElementById('brand-filter').value;
+  const searchQuery=document.getElementById('search-bar').value.toLowerCase();
+  shopContainer.innerHTML='';
+  products.filter(p=>(brandFilter==='All'||p.brand===brandFilter)&&p.name.toLowerCase().includes(searchQuery))
+  .forEach(product=>{
+    const card=document.createElement('div'); card.className='product-card';
+    card.innerHTML=`<img src="${product.img}" alt="${product.name}">
+      <h4>${product.name}</h4>
+      <p>$${product.price}</p>
+      <button onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>`;
+    shopContainer.appendChild(card);
+  });
+}
+
+function addToCart(product){ cart.push(product); renderCart(); }
+
+function renderCart(){
+  cartItemsContainer.innerHTML='';
+  cart.forEach((item,index)=>{
+    const div=document.createElement('div');
+    div.textContent=`${item.name} - $${item.price} `;
+    const removeBtn=document.createElement('button'); removeBtn.textContent='Remove';
+    removeBtn.onclick=()=>{ cart.splice(index,1); renderCart(); };
+    div.appendChild(removeBtn);
+    cartItemsContainer.appendChild(div);
+  });
+  const total=cart.reduce((sum,item)=>sum+item.price,0); cartTotalEl.textContent=total;
+}
+
+document.getElementById('brand-filter').addEventListener('change',renderProducts);
+document.getElementById('search-bar').addEventListener('input',renderProducts);
+renderProducts();
+
+// ===== PAYMENT =====
+function payNow(){
+  const phoneInput=document.getElementById('phone').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const messageEl=document.getElementById('payment-message');
+  const amount=cart.reduce((sum,item)=>sum+item.price,0);
+  messageEl.textContent="";
+  if(!phoneInput||!email){ messageEl.textContent="Please fill in phone and email."; return; }
+  if(cart.length===0){ messageEl.textContent="Your cart is empty."; return; }
+
+  let formattedPhone=phoneInput.replace(/\D/g,'');
+  if(formattedPhone.startsWith("0")) formattedPhone="263"+formattedPhone.slice(1);
+  else if(formattedPhone.startsWith("7")) formattedPhone="263"+formattedPhone;
+  else if(formattedPhone.startsWith("+")) formattedPhone=formattedPhone.replace("+","");
+
+  fetch("/.netlify/functions/paynow",{ method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({phone:formattedPhone,email,amount}) })
+  .then(res=>res.json()).then(data=>{ if(data.ok){ window.location.href=data.browserurl; } else{ messageEl.textContent="Payment failed: "+data.error; } })
+  .catch(err=>{ messageEl.textContent="Error: "+err.message; });
+}
+</script>
+
+</body>
+</html>
