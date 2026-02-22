@@ -6,212 +6,227 @@
 <title>Starry Mobile Space</title>
 
 <style>
+
+/* ===============================
+   GLOBAL COLORS
+================================ */
 :root{
-  --primary: #0B3D78;      /* Deep navy blue */
-  --accent: #1F6ED4;       /* Royal blue highlight */
-  --muted: #2A4B77;        /* Medium steel blue */
-  --bg: #EEF0F2;           /* Light cool gray */
-  --card: #FFFFFF;          /* White cards */
-  --shadow: rgba(11,61,120,0.12);
+ --primary:#0B3D78;
+ --accent:#1F6ED4;
+ --steel:#2A4B77;
 }
 
+/* ===============================
+   BODY BACKGROUND
+================================ */
 body{
-  margin: 0;
-  font-family:'Segoe UI',sans-serif;
-  font-weight: 400;
-  font-size:16px;
-  line-height:1.6;
-  background: 
-    radial-gradient(circle at top left, rgba(238,240,242,0.8) 0%, rgba(224,231,243,0.7) 100%),
-    linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2));
-  background-blend-mode: overlay;
-  background-repeat: no-repeat;
-  background-size: cover;
+ margin:0;
+ font-family:'Segoe UI',sans-serif;
+ color:white;
+ overflow-x:hidden;
+ background:
+ radial-gradient(circle at 20% 20%, #1F6ED4 0%, transparent 40%),
+ radial-gradient(circle at 80% 80%, #0B3D78 0%, transparent 50%),
+ linear-gradient(160deg,#000000,#0B3D78,#000000);
 }
 
-/* Header */
-header {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: white;
-  text-align: center;
-  padding: 30px 15px;
-  border-bottom-left-radius: 25px;
-  border-bottom-right-radius: 25px;
-  box-shadow: 0 10px 25px rgba(11,61,120,0.15);
-  position: relative;
+/* ===============================
+   LOADING SCREEN
+================================ */
+#loader{
+ position:fixed;
+ inset:0;
+ background:black;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ z-index:9999;
+}
+.loader-ring{
+ width:80px;
+ height:80px;
+ border-radius:50%;
+ border:4px solid rgba(255,255,255,0.1);
+ border-top:4px solid #1F6ED4;
+ animation:spin 1s linear infinite;
+ margin-bottom:20px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===============================
+   STICKY HEADER
+================================ */
+.topbar{
+ position:fixed;
+ top:0;
+ width:100%;
+ padding:15px 30px;
+ backdrop-filter:blur(20px);
+ background:rgba(0,0,0,0.4);
+ border-bottom:1px solid rgba(255,255,255,0.1);
+ z-index:100;
 }
 
-header img{height:70px;margin-bottom:10px}
-
-header::after {
-  content: '';
-  position: absolute;
-  top: -15px; left: -15px; right: -15px; bottom: -15px;
-  background: radial-gradient(circle, rgba(31,110,212,0.12) 0%, transparent 70%);
-  z-index: 0;
-  border-radius: 25px;
-  pointer-events: none;
+/* ===============================
+   HERO
+================================ */
+.hero{
+ height:100vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ position:relative;
+ overflow:hidden;
+ text-align:center;
 }
 
-/* Controls */
-#controls{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  justify-content:center;
-  padding:20px;
+.hero-glow{
+ position:absolute;
+ width:700px;
+ height:700px;
+ background:radial-gradient(circle,#1F6ED4,transparent 70%);
+ filter:blur(140px);
+ animation:float 8s infinite ease-in-out;
+}
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-40px)}
 }
 
-input, select{
-  padding:12px;
-  border-radius:10px;
-  border:1px solid var(--muted);
-  transition: all 0.3s ease;
+.ring{
+ position:absolute;
+ border-radius:50%;
+ border:1px solid rgba(255,255,255,0.1);
+}
+.r1{width:400px;height:400px;animation:spin 40s linear infinite;}
+.r2{width:650px;height:650px;animation:spinReverse 60s linear infinite;}
+@keyframes spinReverse{from{transform:rotate(360deg)}to{transform:rotate(0)}}
+
+.hero-card{
+ padding:60px 80px;
+ border-radius:22px;
+ backdrop-filter:blur(30px);
+ background:rgba(255,255,255,0.06);
+ border:1px solid rgba(255,255,255,0.15);
+ box-shadow:0 40px 120px rgba(0,0,0,0.8);
 }
 
-input:focus, select:focus{
-  border-color: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
+.hero h1{font-size:60px;margin:0}
+.hero p{font-size:22px;margin:20px 0}
+
+.hero button{
+ padding:18px 45px;
+ border:none;
+ border-radius:14px;
+ background:linear-gradient(135deg,#1F6ED4,#0B3D78);
+ color:white;
+ cursor:pointer;
+ box-shadow:0 0 30px rgba(31,110,212,0.8);
+ transition:.3s;
+}
+.hero button:hover{
+ transform:translateY(-5px) scale(1.05);
 }
 
-/* Shop grid */
+/* ===============================
+   SHOP GRID
+================================ */
 #shop{
-  position: relative;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-  gap:20px;
-  padding:20px;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+ gap:25px;
+ padding:40px;
 }
 
-#shop::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: radial-gradient(circle, rgba(31,110,212,0.08) 0%, transparent 70%);
-  z-index: -1;
-  pointer-events: none;
-  border-radius: 15px;
-}
-
-/* Cards */
 .card{
-  background: linear-gradient(145deg, #FFFFFF, #F7F9FC);
-  border-radius: 20px;
-  padding:20px;
-  text-align:center;
-  box-shadow:0 10px 20px rgba(11,61,120,0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
+ background:rgba(255,255,255,0.06);
+ backdrop-filter:blur(20px);
+ border-radius:16px;
+ padding:20px;
+ text-align:center;
+ border:1px solid rgba(255,255,255,0.1);
+ transition:.4s;
+ transform-style:preserve-3d;
 }
-
 .card:hover{
-  transform: translateY(-5px) scale(1.02);
-  box-shadow:0 15px 30px rgba(31,110,212,0.18);
+ transform:translateY(-10px);
+ box-shadow:0 25px 60px rgba(0,0,0,0.7);
 }
 
-/* Buttons */
-button{
-  border:none;
-  padding:12px;
-  border-radius:12px;
-  cursor:pointer;
-  font-weight:600;
-  position: relative;
-  z-index: 1;
-  transition: all 0.3s ease;
+.card img{
+ width:100%;
+ border-radius:10px;
 }
 
 button.primary{
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color:white;
+ background:linear-gradient(135deg,#1F6ED4,#0B3D78);
+ color:white;
+ border:none;
+ padding:10px;
+ border-radius:8px;
+ cursor:pointer;
 }
 
-button.primary:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(31,110,212,0.3);
-}
-
-/* Cart */
+/* ===============================
+   SLIDE CART
+================================ */
 #cart{
-  position:fixed;
-  right:20px;
-  top:20px;
-  width:280px;
-  background: linear-gradient(145deg,#FFFFFF,#F7F9FC);
-  padding:20px;
-  border-radius:20px;
-  box-shadow: 0 12px 25px rgba(11,61,120,0.12);
-  max-height:80vh;
-  overflow:auto;
+ position:fixed;
+ right:-320px;
+ top:0;
+ height:100vh;
+ width:280px;
+ background:rgba(0,0,0,0.8);
+ backdrop-filter:blur(20px);
+ padding:20px;
+ transition:.4s;
 }
+#cart.open{right:0}
 
-#cart button{
-  margin-left:10px;
-  background: var(--accent);
-  color:white;
-  border-radius:50%;
-  width:20px;
-  height:20px;
-  font-weight:bold;
-  border:none;
-}
-
-/* Badges (only in cart) */
 .badge{
-  display:inline-block;
-  padding:4px 8px;
-  border-radius:8px;
-  font-size:12px;
-  margin-left:6px;
-  color:white;
+ padding:4px 8px;
+ border-radius:6px;
+ font-size:12px;
+ margin-left:6px;
+}
+.stock{background:#3fd37c;color:black;}
+.preorder{background:#ffb347;color:black;}
+
+#particles{
+ position:fixed;
+ inset:0;
+ z-index:-1;
 }
 
-.stock {background: linear-gradient(135deg, var(--primary), var(--muted));}
-.preorder {background: linear-gradient(135deg, var(--accent), var(--primary));}
-
-/* Admin panel */
-.admin{
-  margin:20px;
-  padding:20px;
-  background: linear-gradient(145deg,#FFFFFF,#F7F9FC);
-  border-radius:20px;
-  box-shadow: 0 5px 15px rgba(11,61,120,0.12);
-}
-
-.admin input, .admin select{
-  margin:5px 0;
-  width: calc(100% - 12px);
-  border:1px solid var(--muted);
-}
-
-.admin input:focus, .admin select:focus{
-  border-color: var(--accent);
-  box-shadow:0 0 6px var(--accent);
-}
-
-.admin button.primary:hover{
-  box-shadow:0 0 8px var(--accent);
-}
 </style>
 </head>
+
 <body>
 
-<header>
-  <img src="logo.png">
-  <h1>Starry Mobile Space</h1>
+<div id="loader">
+<div class="loader-ring"></div>
+<h2>Starry Mobile Space</h2>
+</div>
+
+<header class="topbar">
+ Starry Mobile Space
+ <button onclick="toggleCart()" style="float:right">Cart</button>
 </header>
 
-<div id="controls">
-<select id="brandFilter">
-<option value="All">All Brands</option>
-<option value="Apple">Apple</option>
-<option value="Samsung">Samsung</option>
-<option value="Tecno">Tecno</option>
-<option value="Xiaomi">Xiaomi</option>
-</select>
+<canvas id="particles"></canvas>
 
-<input id="search" placeholder="Search phone">
+<section class="hero">
+<div class="hero-glow"></div>
+<div class="ring r1"></div>
+<div class="ring r2"></div>
+
+<div class="hero-card">
+<h1>Starry Mobile Space</h1>
+<p>Experience premium technology crafted for the future</p>
+<button onclick="scrollToShop()">SHOP NOW</button>
 </div>
+</section>
 
 <div id="shop"></div>
 
@@ -230,141 +245,135 @@ button.primary:hover{
 <button class="primary" onclick="checkout()">Checkout</button>
 </div>
 
-<div class="admin">
-<h3>Admin Panel</h3>
-<input id="adminName" placeholder="Phone name">
-<input id="adminPrice" placeholder="Price" type="number">
-<select id="adminBrand">
-<option>Apple</option>
-<option>Samsung</option>
-<option>Tecno</option>
-<option>Xiaomi</option>
-</select>
-<select id="adminStock">
-<option value="stock">In Stock</option>
-<option value="preorder">Pre Order</option>
-</select>
-<button class="primary" onclick="addProductAdmin()">Add Phone</button>
-</div>
-
 <script>
-const baseProducts=[
-{name:'iPhone 16 Pro Max',brand:'Apple',price:1900,status:'stock'},
-{name:'iPhone 16 Pro',brand:'Apple',price:1700,status:'stock'},
-{name:'iPhone 15 Pro Max',brand:'Apple',price:1500,status:'stock'},
-{name:'iPhone 15 Pro',brand:'Apple',price:1350,status:'stock'},
-{name:'iPhone 14 Pro Max',brand:'Apple',price:1200,status:'stock'},
-{name:'iPhone 14 Pro',brand:'Apple',price:1100,status:'stock'},
-{name:'iPhone 13 Pro Max',brand:'Apple',price:950,status:'stock'},
-{name:'iPhone 13',brand:'Apple',price:700,status:'stock'},
-{name:'iPhone 12',brand:'Apple',price:550,status:'stock'},
-{name:'iPhone 11',brand:'Apple',price:450,status:'stock'},
-{name:'iPhone SE 3',brand:'Apple',price:350,status:'stock'},
-{name:'Galaxy S24 Ultra',brand:'Samsung',price:1200,status:'stock'},
-{name:'Galaxy S23 Ultra',brand:'Samsung',price:1000,status:'stock'},
-{name:'Galaxy S22',brand:'Samsung',price:650,status:'stock'},
-{name:'Galaxy Z Fold5',brand:'Samsung',price:1800,status:'preorder'},
-{name:'Galaxy Z Flip5',brand:'Samsung',price:1100,status:'stock'},
-{name:'Tecno Camon 20',brand:'Tecno',price:280,status:'stock'},
-{name:'Tecno Phantom X2',brand:'Tecno',price:600,status:'preorder'},
-{name:'Redmi Note 13',brand:'Xiaomi',price:260,status:'stock'},
-{name:'Xiaomi 13 Pro',brand:'Xiaomi',price:850,status:'preorder'}
+
+/* LOADER */
+window.addEventListener("load",()=>{
+ setTimeout(()=>loader.remove(),1200);
+});
+
+/* PARTICLES */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+let particles=[];
+for(let i=0;i<80;i++){
+ particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2});
+}
+function animateParticles(){
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ particles.forEach(p=>{
+   ctx.beginPath();
+   ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+   ctx.fillStyle="rgba(255,255,255,0.4)";
+   ctx.fill();
+   p.y-=0.2;
+   if(p.y<0)p.y=canvas.height;
+ });
+ requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+/* PRODUCTS */
+const products=[
+{name:'iPhone 16 Pro Max',price:1900,status:'stock',img:'https://dummyimage.com/400x300/000/fff&text=iPhone'},
+{name:'Galaxy S24 Ultra',price:1200,status:'stock',img:'https://dummyimage.com/400x300/000/fff&text=Galaxy'},
+{name:'Galaxy Z Fold5',price:1800,status:'preorder',img:'https://dummyimage.com/400x300/000/fff&text=Fold'},
+{name:'Tecno Camon 20',price:280,status:'stock',img:'https://dummyimage.com/400x300/000/fff&text=Tecno'}
 ];
-
-let stored=JSON.parse(localStorage.getItem('products')||'[]');
-let products=[...baseProducts,...stored];
-
-const storageOptions=[128,256,512];
-const storageMultiplier={128:1,256:1.15,512:1.3};
-const colors=['Black','Silver','Blue','Gold','Purple'];
 
 const shop=document.getElementById('shop');
 const cartItems=document.getElementById('cartItems');
 const totalEl=document.getElementById('total');
 const paymentSummary=document.getElementById('paymentSummary');
+let cart=[];
 
-let cart=JSON.parse(localStorage.getItem('cart')||'[]');
-
+/* RENDER */
 function render(){
-  const brand=document.getElementById('brandFilter').value;
-  const search=document.getElementById('search').value.toLowerCase();
-  shop.innerHTML='';
-  products.filter(p=>(brand==='All'||p.brand===brand)&&p.name.toLowerCase().includes(search))
-  .forEach(p=>{
-    const card=document.createElement('div');
-    card.className='card';
-    const storageSelect=`<select class="storage">${storageOptions.map(s=>`<option value="${s}">${s}GB</option>`).join('')}</select>`;
-    const colorSelect=`<select class="color">${colors.map(c=>`<option>${c}</option>`).join('')}</select>`;
-    card.innerHTML=`<h4>${p.name}</h4><p>From $${p.price}</p>${storageSelect}${colorSelect}<button class="primary">Add</button>`;
-    card.querySelector('button').onclick=()=>{
-      const storage=card.querySelector('.storage').value;
-      const color=card.querySelector('.color').value;
-      const finalPrice=Math.round(p.price*storageMultiplier[storage]);
-      cart.push({name:p.name,price:finalPrice,storage,color,status:p.status});
-      localStorage.setItem('cart',JSON.stringify(cart));
-      renderCart();
-    };
-    shop.appendChild(card);
-  });
+ shop.innerHTML='';
+ products.forEach(p=>{
+   const card=document.createElement('div');
+   card.className='card';
+   card.innerHTML=`
+   <img src="${p.img}">
+   <h4>${p.name}</h4>
+   <p>$${p.price}</p>
+   <button class="primary">Add</button>`;
+   card.querySelector('button').onclick=()=>{cart.push(p);renderCart();};
+   shop.appendChild(card);
+ });
 }
+render();
 
+/* CART */
 function renderCart(){
-  cartItems.innerHTML='';
-  let total=0;
-  cart.forEach((item,i)=>{
-    const div=document.createElement('div');
-    const statusBadge = `<span class="badge ${item.status}">${item.status==='stock'?'In Stock':'Pre Order'}</span>`;
-    div.innerHTML = `${item.name} ${item.storage}GB ${item.color} - $${item.price} ${statusBadge}`;
-    const btn = document.createElement('button');
-    btn.textContent='x';
-    btn.onclick = ()=>{ cart.splice(i,1); localStorage.setItem('cart',JSON.stringify(cart)); renderCart(); };
-    div.appendChild(btn);
-    cartItems.appendChild(div);
-    total += item.price;
-  });
-  totalEl.textContent=total;
-  updatePaymentSummary();
+ cartItems.innerHTML='';
+ let total=0;
+ cart.forEach((item,i)=>{
+   const badge=item.status==='stock'
+   ?'<span class="badge stock">In Stock</span>'
+   :'<span class="badge preorder">Pre Order</span>';
+   const div=document.createElement('div');
+   div.innerHTML=`${item.name} - $${item.price} ${badge}`;
+   const btn=document.createElement('button');
+   btn.textContent='x';
+   btn.onclick=()=>{cart.splice(i,1);renderCart();};
+   div.appendChild(btn);
+   cartItems.appendChild(div);
+   total+=item.price;
+ });
+ totalEl.textContent=total;
+ updatePaymentSummary();
 }
 
+/* PAYMENT */
 function updatePaymentSummary(){
-  const type=document.getElementById('paymentType').value;
-  const total=Number(totalEl.textContent);
-  if(type==='full') paymentSummary.textContent='Pay full amount now';
-  if(type==='cash') paymentSummary.textContent='Pay cash when delivered';
-  if(type==='preorder'){
-    const deposit=Math.round(total*0.7);
-    const balance=total-deposit;
-    paymentSummary.textContent=`Deposit $${deposit} now, balance $${balance} on delivery`;
-  }
+ const type=document.getElementById('paymentType').value;
+ const total=Number(totalEl.textContent);
+ if(type==='preorder'){
+   const deposit=Math.round(total*0.7);
+   const balance=total-deposit;
+   paymentSummary.textContent=`Deposit $${deposit}, balance $${balance}`;
+ }else if(type==='cash'){
+   paymentSummary.textContent='Pay on delivery';
+ }else{
+   paymentSummary.textContent='Pay full now';
+ }
 }
-
 document.getElementById('paymentType').onchange=updatePaymentSummary;
-document.getElementById('brandFilter').onchange=render;
-document.getElementById('search').oninput=render;
 
 function checkout(){
-  alert('Order placed successfully');
-  cart=[];
-  localStorage.setItem('cart',JSON.stringify(cart));
-  renderCart();
+ alert('Order placed');
+ cart=[];
+ renderCart();
 }
 
-function addProductAdmin(){
-  const name=document.getElementById('adminName').value;
-  const price=Number(document.getElementById('adminPrice').value);
-  const brand=document.getElementById('adminBrand').value;
-  const status=document.getElementById('adminStock').value;
-  if(!name || !price) return alert('Enter valid name and price');
-  const newProduct={name,price,brand,status};
-  products.push(newProduct);
-  stored.push(newProduct);
-  localStorage.setItem('products',JSON.stringify(stored));
-  render();
+/* SCROLL */
+function scrollToShop(){
+ document.getElementById("shop").scrollIntoView({behavior:"smooth"});
 }
 
-render();
-renderCart();
+/* CART TOGGLE */
+function toggleCart(){
+ document.getElementById("cart").classList.toggle("open");
+}
+
+/* 3D CARD TILT */
+document.addEventListener("mousemove",e=>{
+ document.querySelectorAll(".card").forEach(card=>{
+   const rect=card.getBoundingClientRect();
+   const x=e.clientX-rect.left;
+   const y=e.clientY-rect.top;
+   const cx=rect.width/2;
+   const cy=rect.height/2;
+   const rx=(y-cy)/15;
+   const ry=(cx-x)/15;
+   card.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;
+ });
+});
+
 </script>
-
 </body>
 </html>
