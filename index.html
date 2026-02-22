@@ -3,377 +3,371 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Starry Mobile Space</title>
+<title>Starry Night Mobiles</title>
 
 <style>
-
-/* ===============================
-   GLOBAL COLORS
-================================ */
 :root{
- --primary:#0B3D78;
- --accent:#1F6ED4;
- --steel:#2A4B77;
+  --primary:#0B3D78;
+  --highlight:#1F6ED4;
+  --secondary:#2A4B77;
+  --bg:#0A0A0A;
+  --card:#121212;
+  --white:#FFFFFF;
+  --text:#E6E6E6;
 }
 
-/* ===============================
-   BODY BACKGROUND
-================================ */
 body{
- margin:0;
- font-family:'Segoe UI',sans-serif;
- color:white;
- overflow-x:hidden;
- background:
- radial-gradient(circle at 20% 20%, #1F6ED4 0%, transparent 40%),
- radial-gradient(circle at 80% 80%, #0B3D78 0%, transparent 50%),
- linear-gradient(160deg,#000000,#0B3D78,#000000);
+  font-family:'Segoe UI',sans-serif;
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(31,110,212,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(11,61,120,0.08) 0%, transparent 40%);
 }
 
-/* ===============================
-   LOADING SCREEN
-================================ */
-#loader{
- position:fixed;
- inset:0;
- background:black;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- z-index:9999;
-}
-.loader-ring{
- width:80px;
- height:80px;
- border-radius:50%;
- border:4px solid rgba(255,255,255,0.1);
- border-top:4px solid #1F6ED4;
- animation:spin 1s linear infinite;
- margin-bottom:20px;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ===============================
-   STICKY HEADER
-================================ */
-.topbar{
- position:fixed;
- top:0;
- width:100%;
- padding:15px 30px;
- backdrop-filter:blur(20px);
- background:rgba(0,0,0,0.4);
- border-bottom:1px solid rgba(255,255,255,0.1);
- z-index:100;
+/* HEADER */
+header{
+  text-align:center;
+  padding:30px;
+  background:linear-gradient(135deg,#0B3D78,#2A4B77);
+  color:var(--white);
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* ===============================
-   HERO
-================================ */
-.hero{
- height:100vh;
- display:flex;
- align-items:center;
- justify-content:center;
- position:relative;
- overflow:hidden;
- text-align:center;
+/* HERO SECTION */
+#hero-section{
+  padding:60px 20px;
+  text-align:center;
+  background:linear-gradient(180deg,#0A0A0A,#111111);
 }
 
-.hero-glow{
- position:absolute;
- width:700px;
- height:700px;
- background:radial-gradient(circle,#1F6ED4,transparent 70%);
- filter:blur(140px);
- animation:float 8s infinite ease-in-out;
-}
-@keyframes float{
- 0%,100%{transform:translateY(0)}
- 50%{transform:translateY(-40px)}
+.hero-text h2{
+  color:#FFFFFF;
+  font-size:28px;
 }
 
-.ring{
- position:absolute;
- border-radius:50%;
- border:1px solid rgba(255,255,255,0.1);
-}
-.r1{width:400px;height:400px;animation:spin 40s linear infinite;}
-.r2{width:650px;height:650px;animation:spinReverse 60s linear infinite;}
-@keyframes spinReverse{from{transform:rotate(360deg)}to{transform:rotate(0)}}
-
-.hero-card{
- padding:60px 80px;
- border-radius:22px;
- backdrop-filter:blur(30px);
- background:rgba(255,255,255,0.06);
- border:1px solid rgba(255,255,255,0.15);
- box-shadow:0 40px 120px rgba(0,0,0,0.8);
+.hero-text p{
+  color:#B0C4DE;
+  margin-bottom:30px;
 }
 
-.hero h1{font-size:60px;margin:0}
-.hero p{font-size:22px;margin:20px 0}
-
-.hero button{
- padding:18px 45px;
- border:none;
- border-radius:14px;
- background:linear-gradient(135deg,#1F6ED4,#0B3D78);
- color:white;
- cursor:pointer;
- box-shadow:0 0 30px rgba(31,110,212,0.8);
- transition:.3s;
-}
-.hero button:hover{
- transform:translateY(-5px) scale(1.05);
+.hero-images{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:25px;
 }
 
-/* ===============================
-   SHOP GRID
-================================ */
-#shop{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
- gap:25px;
- padding:40px;
+.hero-images img{
+  width:350px;
+  max-width:100%;
+  border-radius:18px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.5);
+  transition:0.4s;
 }
 
-.card{
- background:rgba(255,255,255,0.06);
- backdrop-filter:blur(20px);
- border-radius:16px;
- padding:20px;
- text-align:center;
- border:1px solid rgba(255,255,255,0.1);
- transition:.4s;
- transform-style:preserve-3d;
-}
-.card:hover{
- transform:translateY(-10px);
- box-shadow:0 25px 60px rgba(0,0,0,0.7);
+.hero-images img:hover{
+  transform:scale(1.05);
+  box-shadow:
+    0 0 0 4px rgba(31,110,212,0.6),
+    0 20px 40px rgba(0,0,0,0.6);
 }
 
-.card img{
- width:100%;
- border-radius:10px;
+/* FILTERS */
+#filters{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:14px;
+  padding:25px;
 }
 
-button.primary{
- background:linear-gradient(135deg,#1F6ED4,#0B3D78);
- color:white;
- border:none;
- padding:10px;
- border-radius:8px;
- cursor:pointer;
+select,input{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #333;
+  background:#1A1A1A;
+  color:white;
 }
-
-/* ===============================
-   SLIDE CART
-================================ */
-#cart{
- position:fixed;
- right:-320px;
- top:0;
- height:100vh;
- width:280px;
- background:rgba(0,0,0,0.8);
- backdrop-filter:blur(20px);
- padding:20px;
- transition:.4s;
-}
-#cart.open{right:0}
-
-.badge{
- padding:4px 8px;
- border-radius:6px;
- font-size:12px;
- margin-left:6px;
-}
-.stock{background:#3fd37c;color:black;}
-.preorder{background:#ffb347;color:black;}
-
-#particles{
- position:fixed;
- inset:0;
- z-index:-1;
-}
-
-</style>
-</head>
-
-<body>
-
-<div id="loader">
-<div class="loader-ring"></div>
-<h2>Starry Mobile Space</h2>
-</div>
-
-<header class="topbar">
- Starry Mobile Space
- <button onclick="toggleCart()" style="float:right">Cart</button>
-</header>
-
-<canvas id="particles"></canvas>
-
-<section class="hero">
-<div class="hero-glow"></div>
-<div class="ring r1"></div>
-<div class="ring r2"></div>
-
-<div class="hero-card">
-<h1>Starry Mobile Space</h1>
-<p>Experience premium technology crafted for the future</p>
-<button onclick="scrollToShop()">SHOP NOW</button>
-</div>
-</section>
-
-<div id="shop"></div>
-
-<div id="cart">
-<h3>Cart</h3>
-<div id="cartItems"></div>
-<p>Total: $<span id="total">0</span></p>
-
-<select id="paymentType">
-<option value="full">Full Payment</option>
-<option value="cash">Cash on Delivery</option>
-<option value="preorder">Pre Order (70% deposit)</option>
-</select>
-
-<p id="paymentSummary"></p>
-<button class="primary" onclick="checkout()">Checkout</button>
-</div>
-
-<script>
-
-/* LOADER */
-window.addEventListener("load",()=>{
- setTimeout(()=>loader.remove(),1200);
-});
-
-/* PARTICLES */
-const canvas=document.getElementById("particles");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-
-let particles=[];
-for(let i=0;i<80;i++){
- particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2});
-}
-function animateParticles(){
- ctx.clearRect(0,0,canvas.width,canvas.height);
- particles.forEach(p=>{
-   ctx.beginPath();
-   ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-   ctx.fillStyle="rgba(255,255,255,0.4)";
-   ctx.fill();
-   p.y-=0.2;
-   if(p.y<0)p.y=canvas.height;
- });
- requestAnimationFrame(animateParticles);
-}
-animateParticles();
 
 /* PRODUCTS */
-const products=[
-{name:'iPhone 16 Pro Max',price:1900,status:'stock',img:'https://dummyimage.com/400x300/000/fff&text=iPhone'},
-{name:'Galaxy S24 Ultra',price:1200,status:'stock',img:'https://dummyimage.com/400x300/000/fff&text=Galaxy'},
-{name:'Galaxy Z Fold5',price:1800,status:'preorder',img:'https://dummyimage.com/400x300/000/fff&text=Fold'},
-{name:'Tecno Camon 20',price:280,status:'stock',img:'https://dummyimage.com/400x300/000/fff&text=Tecno'}
-];
-
-const shop=document.getElementById('shop');
-const cartItems=document.getElementById('cartItems');
-const totalEl=document.getElementById('total');
-const paymentSummary=document.getElementById('paymentSummary');
-let cart=[];
-
-/* RENDER */
-function render(){
- shop.innerHTML='';
- products.forEach(p=>{
-   const card=document.createElement('div');
-   card.className='card';
-   card.innerHTML=`
-   <img src="${p.img}">
-   <h4>${p.name}</h4>
-   <p>$${p.price}</p>
-   <button class="primary">Add</button>`;
-   card.querySelector('button').onclick=()=>{cart.push(p);renderCart();};
-   shop.appendChild(card);
- });
+#shop-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:22px;
+  padding:25px;
 }
-render();
+
+.product-card{
+  background:var(--card);
+  border-radius:16px;
+  padding:18px;
+  text-align:center;
+  transition:0.35s;
+  border:1px solid rgba(255,255,255,0.05);
+}
+
+.product-card:hover{
+  transform:translateY(-8px);
+  box-shadow:
+    0 0 0 3px rgba(31,110,212,0.6),
+    0 15px 35px rgba(0,0,0,0.6);
+}
+
+.product-card img{
+  width:120px;
+  height:120px;
+  object-fit:contain;
+}
+
+.product-card h4{
+  color:white;
+  margin:10px 0 5px;
+}
+
+.product-card p{
+  color:#B0C4DE;
+  font-weight:bold;
+}
+
+.product-card button{
+  margin-top:10px;
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+  font-weight:bold;
+}
+
+.product-card button:hover{
+  background:linear-gradient(135deg,var(--highlight),var(--primary));
+}
 
 /* CART */
-function renderCart(){
- cartItems.innerHTML='';
- let total=0;
- cart.forEach((item,i)=>{
-   const badge=item.status==='stock'
-   ?'<span class="badge stock">In Stock</span>'
-   :'<span class="badge preorder">Pre Order</span>';
-   const div=document.createElement('div');
-   div.innerHTML=`${item.name} - $${item.price} ${badge}`;
-   const btn=document.createElement('button');
-   btn.textContent='x';
-   btn.onclick=()=>{cart.splice(i,1);renderCart();};
-   div.appendChild(btn);
-   cartItems.appendChild(div);
-   total+=item.price;
- });
- totalEl.textContent=total;
- updatePaymentSummary();
+#cart{
+  position:fixed;
+  top:20px;
+  right:20px;
+  width:280px;
+  padding:20px;
+  border-radius:18px;
+  backdrop-filter:blur(15px);
+  background:rgba(20,20,20,0.9);
+  box-shadow:0 15px 40px rgba(0,0,0,0.6);
+  border-top:5px solid var(--highlight);
+  max-height:80vh;
+  overflow-y:auto;
+}
+
+#cart h3{
+  color:white;
+}
+
+#cart-items button{
+  background:var(--secondary);
+  color:white;
+  border:none;
+  border-radius:6px;
+  padding:4px 7px;
+  cursor:pointer;
+}
+
+#cart-total{
+  font-weight:bold;
+  color:var(--highlight);
 }
 
 /* PAYMENT */
-function updatePaymentSummary(){
- const type=document.getElementById('paymentType').value;
- const total=Number(totalEl.textContent);
- if(type==='preorder'){
-   const deposit=Math.round(total*0.7);
-   const balance=total-deposit;
-   paymentSummary.textContent=`Deposit $${deposit}, balance $${balance}`;
- }else if(type==='cash'){
-   paymentSummary.textContent='Pay on delivery';
- }else{
-   paymentSummary.textContent='Pay full now';
- }
-}
-document.getElementById('paymentType').onchange=updatePaymentSummary;
-
-function checkout(){
- alert('Order placed');
- cart=[];
- renderCart();
+#payment-form{
+  margin:40px auto;
+  padding:28px;
+  background:#111111;
+  border-radius:18px;
+  max-width:450px;
+  border-top:6px solid var(--highlight);
 }
 
-/* SCROLL */
-function scrollToShop(){
- document.getElementById("shop").scrollIntoView({behavior:"smooth"});
+#payment-form h3{
+  text-align:center;
+  color:white;
 }
 
-/* CART TOGGLE */
-function toggleCart(){
- document.getElementById("cart").classList.toggle("open");
+#payment-form input{
+  width:100%;
+  margin-bottom:14px;
+  padding:11px;
+  border-radius:8px;
+  border:1px solid #333;
+  background:#1A1A1A;
+  color:white;
 }
 
-/* 3D CARD TILT */
-document.addEventListener("mousemove",e=>{
- document.querySelectorAll(".card").forEach(card=>{
-   const rect=card.getBoundingClientRect();
-   const x=e.clientX-rect.left;
-   const y=e.clientY-rect.top;
-   const cx=rect.width/2;
-   const cy=rect.height/2;
-   const rx=(y-cy)/15;
-   const ry=(cx-x)/15;
-   card.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;
- });
+#payment-form button{
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+#payment-form button:hover{
+  background:linear-gradient(135deg,var(--highlight),var(--primary));
+}
+
+@media(max-width:768px){
+  #cart{
+    position:static;
+    width:auto;
+    margin:20px;
+  }
+}
+</style>
+</head>
+
+<header>
+  <h1>Starry Night Mobiles</h1>
+</header>
+
+<section id="hero-section">
+  <div class="hero-text">
+    <h2>Premium Smartphones. Trusted Quality.</h2>
+    <p>Latest iPhones, Samsung Galaxy & Google Pixel available now.</p>
+  </div>
+
+  <div class="hero-images">
+    <img src="https://via.placeholder.com/400x250" alt="Phone 1">
+    <img src="https://via.placeholder.com/400x250" alt="Phone 2">
+    <img src="https://via.placeholder.com/400x250" alt="Phone 3">
+  </div>
+</section>
+
+<div id="filters">
+  <select id="brand-filter">
+    <option value="All">All Brands</option>
+    <option value="Apple">Apple</option>
+    <option value="Samsung">Samsung</option>
+    <option value="Google">Google</option>
+  </select>
+  <input type="text" id="search-bar" placeholder="Search model...">
+</div>
+
+<div id="shop-container"></div>
+
+<div id="cart">
+  <h3>Cart</h3>
+  <div id="cart-items"></div>
+  <p>Total: $<span id="cart-total">0</span></p>
+</div>
+
+<div id="payment-form">
+  <h3>Pay with EcoCash</h3>
+  <input type="text" id="phone" placeholder="Phone number">
+  <input type="email" id="email" placeholder="Email">
+  <button onclick="payNow()">Pay Now</button>
+  <p id="payment-message"></p>
+</div>
+
+<script>
+const products=[
+{name:"iPhone 15 Pro",price:1550,img:"https://via.placeholder.com/100",brand:"Apple"},
+{name:"Galaxy S24 Ultra",price:1000,img:"https://via.placeholder.com/100",brand:"Samsung"},
+{name:"Pixel 9 Pro",price:1040,img:"https://via.placeholder.com/100",brand:"Google"}
+];
+
+const shop=document.getElementById('shop-container');
+const cartItems=document.getElementById('cart-items');
+const cartTotal=document.getElementById('cart-total');
+let cart=[];
+
+function renderProducts(){
+shop.innerHTML='';
+products.forEach(p=>{
+const card=document.createElement('div');
+card.className='product-card';
+card.innerHTML=`
+<img src="${p.img}">
+<h4>${p.name}</h4>
+<p>$${p.price}</p>
+<button onclick='addToCart(${JSON.stringify(p)})'>Add to Cart</button>`;
+shop.appendChild(card);
 });
+}
 
+function addToCart(p){cart.push(p);renderCart();}
+
+function renderCart(){
+cartItems.innerHTML='';
+cart.forEach((item,i)=>{
+const div=document.createElement('div');
+div.innerHTML=`${item.name} - $${item.price}
+<button onclick="removeItem(${i})">X</button>`;
+cartItems.appendChild(div);
+});
+cartTotal.textContent=cart.reduce((sum,i)=>sum+i.price,0);
+}
+
+function removeItem(i){cart.splice(i,1);renderCart();}
+
+function payNow(){
+alert("EcoCash payment integration ready.");
+}
+
+renderProducts();
+</script>
+<form id="orderForm" enctype="multipart/form-data">
+  <input type="text" name="customerName" placeholder="Full Name" required>
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="text" name="phone" placeholder="Phone" required>
+  <input type="text" name="debitNoteNumber" placeholder="Debit Note Number">
+  <input type="file" name="debitNote">
+  <button type="submit">Submit Order</button>
+</form>
+
+<script>
+document.getElementById("orderForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+  const formData = new FormData(this);
+
+  const res = await fetch("http://localhost:5000/api/order", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+  alert("Tracking Number: " + data.trackingNumber);
+});
 </script>
 </body>
+<section class="mobile-hero">
+
+  <div class="phone-frame">
+
+    <div class="top-nav">
+      <span class="nav-arrow">&#8249;</span>
+      <span class="active">Home</span>
+      <span>Contact</span>
+      <span class="nav-arrow">&#8250;</span>
+    </div>
+
+    <div class="logo-area">
+      <img src="https://via.placeholder.com/100x100" alt="Logo">
+    </div>
+
+    <div class="hero-content">
+      <h1>Gadget<br>Store</h1>
+      <p>Limited Stocks Available</p>
+      <button onclick="scrollToShop()">SHOP NOW</button>
+    </div>
+
+  </div>
+<body>
+</section>
 </html>

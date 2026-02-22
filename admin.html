@@ -1,1 +1,20 @@
 <!doctype html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Admin — Starry Mobile</title><link rel='stylesheet' href='style.css'></head><body class='light'><main class='wrap'><h1>Admin Panel</h1><div id='loginBox'><p>Enter password to edit products:</p><input id='pw' type='password'><button id='loginBtn' class='btn primary'>Login</button></div><div id='adminArea' style='display:none'><p>Edit products (JSON):</p><textarea id='jsonBox' style='width:100%;height:320px'></textarea><div class='form-actions'><button id='saveBtn' class='btn primary'>Save</button><button id='logoutBtn' class='btn'>Logout</button></div></div></main><script>const pw='StarryNights3';document.getElementById('loginBtn').onclick=function(){var v=document.getElementById('pw').value; if(v===pw){document.getElementById('loginBox').style.display='none'; document.getElementById('adminArea').style.display='block'; var current = localStorage.getItem('products') || JSON.stringify([{"name": "iPhone 15 Pro", "price": 980, "brand": "iPhone", "img": "iphone15pro.jpg", "desc": "Premium iPhone 15 Pro \u2014 flagship."}, {"name": "iPhone 15", "price": 650, "brand": "iPhone", "img": "iphone15.jpg", "desc": "iPhone 15 \u2014 modern design."}, {"name": "iPhone 14", "price": 520, "brand": "iPhone", "img": "iphone14.jpg", "desc": "iPhone 14 \u2014 great value."}, {"name": "Samsung Galaxy S25", "price": 750, "brand": "Samsung", "img": "s25.svg", "desc": "Samsung S25 \u2014 cutting edge."}, {"name": "Samsung Galaxy A15", "price": 160, "brand": "Samsung", "img": "a15.svg", "desc": "Affordable A15."}, {"name": "Samsung Galaxy A07", "price": 110, "brand": "Samsung", "img": "a07.svg", "desc": "Budget A07."}, {"name": "Google Pixel 9 Pro XL", "price": 1125, "brand": "Pixel", "img": "pixel9pro.svg", "desc": "Pixel 9 Pro XL \u2014 camera AI."}, {"name": "Google Pixel 8a", "price": 420, "brand": "Pixel", "img": "pixel8a.svg", "desc": "Pixel 8a \u2014 midrange."}, {"name": "Google Pixel 7a", "price": 365, "brand": "Pixel", "img": "pixel7a.svg", "desc": "Pixel 7a \u2014 value."}]); document.getElementById('jsonBox').value = current;} else alert('Incorrect password');};document.getElementById('saveBtn').onclick=function(){ try{ JSON.parse(document.getElementById('jsonBox').value); localStorage.setItem('products', document.getElementById('jsonBox').value); alert('Saved. Reload index to apply.'); }catch(e){ alert('Invalid JSON'); } };document.getElementById('logoutBtn').onclick=function(){ document.getElementById('adminArea').style.display='none'; document.getElementById('loginBox').style.display='block'; document.getElementById('pw').value=''; };</script></body></html>
+<h1>Admin Dashboard</h1>
+<div id="orders"></div>
+
+<script>
+fetch("http://localhost:5000/api/orders")
+.then(res => res.json())
+.then(data => {
+  const container = document.getElementById("orders");
+  data.forEach(order => {
+    container.innerHTML += `
+      <div style="border:1px solid #ccc;margin:10px;padding:10px">
+        <p><b>Name:</b> ${order.customerName}</p>
+        <p><b>Tracking:</b> ${order.trackingNumber}</p>
+        <p><b>Status:</b> ${order.orderLocation}</p>
+      </div>
+    `;
+  });
+});
+</script>

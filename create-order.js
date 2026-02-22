@@ -69,3 +69,17 @@ exports.handler = async (event) => {
     return { statusCode: 500, body: "error" };
   }
 };
+if (!req.file) {
+  const doc = new PDFDocument();
+  const filePath = `./uploads/${Date.now()}-debit-note.pdf`;
+  doc.pipe(fs.createWriteStream(filePath));
+
+  doc.fontSize(20).text("DEBIT NOTE", { align: "center" });
+  doc.moveDown();
+  doc.text(`Customer: ${req.body.customerName}`);
+  doc.text(`Email: ${req.body.email}`);
+  doc.text(`Tracking: ${trackingNumber}`);
+  doc.end();
+
+  debitNoteImage = filePath;
+}

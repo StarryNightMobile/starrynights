@@ -87,3 +87,6 @@ document.addEventListener('DOMContentLoaded', function(){
   const paynowBtn = document.getElementById('paynowBtn');
   if (paynowBtn) paynowBtn.addEventListener('click', checkoutWithPaynow);
 });
+function scrollToShop(){
+  document.getElementById("shop-container").scrollIntoView({behavior:"smooth"});
+}
