@@ -5,5 +5,15 @@
     "axios": "^1.13.2",
     "node-fetch": "^2.6.7",
     "stripe": "^11.0.0"
-  }
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
