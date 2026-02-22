@@ -3,377 +3,250 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Starry Mobile Space</title>
+<title>Ultra Premium Store</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* ===============================
-   GLOBAL COLORS
-================================ */
-:root{
- --primary:#0B3D78;
- --accent:#1F6ED4;
- --steel:#2A4B77;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
-/* ===============================
-   BODY BACKGROUND
-================================ */
 body{
- margin:0;
- font-family:'Segoe UI',sans-serif;
- color:white;
- overflow-x:hidden;
- background:
- radial-gradient(circle at 20% 20%, #1F6ED4 0%, transparent 40%),
- radial-gradient(circle at 80% 80%, #0B3D78 0%, transparent 50%),
- linear-gradient(160deg,#000000,#0B3D78,#000000);
+background:#000;
+color:white;
+overflow-x:hidden;
 }
 
-/* ===============================
-   LOADING SCREEN
-================================ */
-#loader{
- position:fixed;
- inset:0;
- background:black;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- z-index:9999;
-}
-.loader-ring{
- width:80px;
- height:80px;
- border-radius:50%;
- border:4px solid rgba(255,255,255,0.1);
- border-top:4px solid #1F6ED4;
- animation:spin 1s linear infinite;
- margin-bottom:20px;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ===============================
-   STICKY HEADER
-================================ */
-.topbar{
- position:fixed;
- top:0;
- width:100%;
- padding:15px 30px;
- backdrop-filter:blur(20px);
- background:rgba(0,0,0,0.4);
- border-bottom:1px solid rgba(255,255,255,0.1);
- z-index:100;
-}
-
-/* ===============================
-   HERO
-================================ */
+/* HERO COVER PAGE */
 .hero{
- height:100vh;
- display:flex;
- align-items:center;
- justify-content:center;
- position:relative;
- overflow:hidden;
- text-align:center;
+height:100vh;
+position:relative;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.9)),
+url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=2000&q=80');
+background-size:cover;
+background-position:center;
 }
 
-.hero-glow{
- position:absolute;
- width:700px;
- height:700px;
- background:radial-gradient(circle,#1F6ED4,transparent 70%);
- filter:blur(140px);
- animation:float 8s infinite ease-in-out;
-}
-@keyframes float{
- 0%,100%{transform:translateY(0)}
- 50%{transform:translateY(-40px)}
+.hero h1{
+font-size:4rem;
+font-weight:700;
+letter-spacing:3px;
+margin-bottom:20px;
+animation:fadeDown 1.2s ease;
 }
 
-.ring{
- position:absolute;
- border-radius:50%;
- border:1px solid rgba(255,255,255,0.1);
+.hero p{
+font-size:1.2rem;
+opacity:0.8;
+margin-bottom:40px;
+animation:fadeUp 1.5s ease;
 }
-.r1{width:400px;height:400px;animation:spin 40s linear infinite;}
-.r2{width:650px;height:650px;animation:spinReverse 60s linear infinite;}
-@keyframes spinReverse{from{transform:rotate(360deg)}to{transform:rotate(0)}}
-
-.hero-card{
- padding:60px 80px;
- border-radius:22px;
- backdrop-filter:blur(30px);
- background:rgba(255,255,255,0.06);
- border:1px solid rgba(255,255,255,0.15);
- box-shadow:0 40px 120px rgba(0,0,0,0.8);
-}
-
-.hero h1{font-size:60px;margin:0}
-.hero p{font-size:22px;margin:20px 0}
 
 .hero button{
- padding:18px 45px;
- border:none;
- border-radius:14px;
- background:linear-gradient(135deg,#1F6ED4,#0B3D78);
- color:white;
- cursor:pointer;
- box-shadow:0 0 30px rgba(31,110,212,0.8);
- transition:.3s;
-}
-.hero button:hover{
- transform:translateY(-5px) scale(1.05);
+padding:18px 50px;
+border:none;
+border-radius:40px;
+font-size:1rem;
+font-weight:600;
+background:linear-gradient(45deg,#ffffff,#bdbdbd);
+color:black;
+cursor:pointer;
+transition:0.4s;
+box-shadow:0 10px 40px rgba(255,255,255,0.25);
+animation:fadeUp 2s ease;
 }
 
-/* ===============================
-   SHOP GRID
-================================ */
-#shop{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
- gap:25px;
- padding:40px;
+.hero button:hover{
+transform:translateY(-4px);
+box-shadow:0 20px 60px rgba(255,255,255,0.35);
+}
+
+/* PRODUCT SECTION */
+.products{
+padding:80px 8%;
+display:none;
+animation:fadeIn 1s ease;
+}
+
+.section-title{
+font-size:2.5rem;
+margin-bottom:50px;
+text-align:center;
+font-weight:600;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:40px;
 }
 
 .card{
- background:rgba(255,255,255,0.06);
- backdrop-filter:blur(20px);
- border-radius:16px;
- padding:20px;
- text-align:center;
- border:1px solid rgba(255,255,255,0.1);
- transition:.4s;
- transform-style:preserve-3d;
+background:linear-gradient(145deg,#0f0f0f,#1a1a1a);
+border-radius:25px;
+overflow:hidden;
+transition:0.4s;
+box-shadow:0 10px 40px rgba(0,0,0,0.7);
 }
+
 .card:hover{
- transform:translateY(-10px);
- box-shadow:0 25px 60px rgba(0,0,0,0.7);
+transform:translateY(-10px) scale(1.02);
+box-shadow:0 25px 70px rgba(255,255,255,0.08);
 }
 
 .card img{
- width:100%;
- border-radius:10px;
+width:100%;
+height:280px;
+object-fit:cover;
 }
 
-button.primary{
- background:linear-gradient(135deg,#1F6ED4,#0B3D78);
- color:white;
- border:none;
- padding:10px;
- border-radius:8px;
- cursor:pointer;
+.card-content{
+padding:20px;
 }
 
-/* ===============================
-   SLIDE CART
-================================ */
-#cart{
- position:fixed;
- right:-320px;
- top:0;
- height:100vh;
- width:280px;
- background:rgba(0,0,0,0.8);
- backdrop-filter:blur(20px);
- padding:20px;
- transition:.4s;
+.card h3{
+margin-bottom:10px;
 }
-#cart.open{right:0}
 
-.badge{
- padding:4px 8px;
- border-radius:6px;
- font-size:12px;
- margin-left:6px;
+.price{
+opacity:0.7;
+margin-bottom:15px;
 }
-.stock{background:#3fd37c;color:black;}
-.preorder{background:#ffb347;color:black;}
 
-#particles{
- position:fixed;
- inset:0;
- z-index:-1;
+.buy-btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:white;
+color:black;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
 }
+
+.buy-btn:hover{
+background:#d9d9d9;
+}
+
+/* ANIMATIONS */
+@keyframes fadeDown{
+from{opacity:0;transform:translateY(-40px);} 
+to{opacity:1;transform:translateY(0);} }
+
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(40px);} 
+to{opacity:1;transform:translateY(0);} }
+
+@keyframes fadeIn{
+from{opacity:0;} 
+to{opacity:1;} }
 
 </style>
 </head>
 
 <body>
 
-<div id="loader">
-<div class="loader-ring"></div>
-<h2>Starry Mobile Space</h2>
+<!-- PREMIUM COVER PAGE -->
+<section class="hero">
+<h1>LUXE COLLECTION</h1>
+<p>Elevate your style with our ultra premium designs</p>
+<button onclick="enterStore()">ENTER STORE</button>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+<h2 class="section-title">Featured Products</h2>
+
+<div class="grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80">
+<div class="card-content">
+<h3>Premium Sneakers</h3>
+<div class="price">$120</div>
+<button class="buy-btn">Buy Now</button>
+</div>
 </div>
 
-<header class="topbar">
- Starry Mobile Space
- <button onclick="toggleCart()" style="float:right">Cart</button>
-</header>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=900&q=80">
+<div class="card-content">
+<h3>Luxury Hoodie</h3>
+<div class="price">$85</div>
+<button class="buy-btn">Buy Now</button>
+</div>
+</div>
 
-<canvas id="particles"></canvas>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=900&q=80">
+<div class="card-content">
+<h3>Designer Watch</h3>
+<div class="price">$250</div>
+<button class="buy-btn">Buy Now</button>
+</div>
+</div>
 
-<section class="hero">
-<div class="hero-glow"></div>
-<div class="ring r1"></div>
-<div class="ring r2"></div>
+<div class="card">
+<img src="https://images.unsplash.com/photo-1520975867597-0c5c0c6b54e5?auto=format&fit=crop&w=900&q=80">
+<div class="card-content">
+<h3>Elegant Handbag</h3>
+<div class="price">$180</div>
+<button class="buy-btn">Buy Now</button>
+</div>
+</div>
 
-<div class="hero-card">
-<h1>Starry Mobile Space</h1>
-<p>Experience premium technology crafted for the future</p>
-<button onclick="scrollToShop()">SHOP NOW</button>
 </div>
 </section>
 
-<div id="shop"></div>
-
-<div id="cart">
-<h3>Cart</h3>
-<div id="cartItems"></div>
-<p>Total: $<span id="total">0</span></p>
-
-<select id="paymentType">
-<option value="full">Full Payment</option>
-<option value="cash">Cash on Delivery</option>
-<option value="preorder">Pre Order (70% deposit)</option>
-</select>
-
-<p id="paymentSummary"></p>
-<button class="primary" onclick="checkout()">Checkout</button>
-</div>
-
 <script>
-
-/* LOADER */
-window.addEventListener("load",()=>{
- setTimeout(()=>loader.remove(),1200);
-});
-
-/* PARTICLES */
-const canvas=document.getElementById("particles");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-
-let particles=[];
-for(let i=0;i<80;i++){
- particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2});
-}
-function animateParticles(){
- ctx.clearRect(0,0,canvas.width,canvas.height);
- particles.forEach(p=>{
-   ctx.beginPath();
-   ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-   ctx.fillStyle="rgba(255,255,255,0.4)";
-   ctx.fill();
-   p.y-=0.2;
-   if(p.y<0)p.y=canvas.height;
- });
- requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-/* PRODUCTS */
-const products=[
-{name:'iPhone 16 Pro Max',price:1900,status:'stock',img:'https://dummyimage.com/400x300/000/fff&text=iPhone'},
-{name:'Galaxy S24 Ultra',price:1200,status:'stock',img:'https://dummyimage.com/400x300/000/fff&text=Galaxy'},
-{name:'Galaxy Z Fold5',price:1800,status:'preorder',img:'https://dummyimage.com/400x300/000/fff&text=Fold'},
-{name:'Tecno Camon 20',price:280,status:'stock',img:'https://dummyimage.com/400x300/000/fff&text=Tecno'}
-];
-
-const shop=document.getElementById('shop');
-const cartItems=document.getElementById('cartItems');
-const totalEl=document.getElementById('total');
-const paymentSummary=document.getElementById('paymentSummary');
-let cart=[];
-
-/* RENDER */
-function render(){
- shop.innerHTML='';
- products.forEach(p=>{
-   const card=document.createElement('div');
-   card.className='card';
-   card.innerHTML=`
-   <img src="${p.img}">
-   <h4>${p.name}</h4>
-   <p>$${p.price}</p>
-   <button class="primary">Add</button>`;
-   card.querySelector('button').onclick=()=>{cart.push(p);renderCart();};
-   shop.appendChild(card);
- });
-}
-render();
-
-/* CART */
-function renderCart(){
- cartItems.innerHTML='';
- let total=0;
- cart.forEach((item,i)=>{
-   const badge=item.status==='stock'
-   ?'<span class="badge stock">In Stock</span>'
-   :'<span class="badge preorder">Pre Order</span>';
-   const div=document.createElement('div');
-   div.innerHTML=`${item.name} - $${item.price} ${badge}`;
-   const btn=document.createElement('button');
-   btn.textContent='x';
-   btn.onclick=()=>{cart.splice(i,1);renderCart();};
-   div.appendChild(btn);
-   cartItems.appendChild(div);
-   total+=item.price;
- });
- totalEl.textContent=total;
- updatePaymentSummary();
-}
-
-/* PAYMENT */
-function updatePaymentSummary(){
- const type=document.getElementById('paymentType').value;
- const total=Number(totalEl.textContent);
- if(type==='preorder'){
-   const deposit=Math.round(total*0.7);
-   const balance=total-deposit;
-   paymentSummary.textContent=`Deposit $${deposit}, balance $${balance}`;
- }else if(type==='cash'){
-   paymentSummary.textContent='Pay on delivery';
- }else{
-   paymentSummary.textContent='Pay full now';
- }
-}
-document.getElementById('paymentType').onchange=updatePaymentSummary;
-
-function checkout(){
- alert('Order placed');
- cart=[];
- renderCart();
-}
-
-/* SCROLL */
 function scrollToShop(){
- document.getElementById("shop").scrollIntoView({behavior:"smooth"});
+  const shop = document.getElementById("shop");
+  if(!shop) return;
+
+  // create cinematic transition overlay
+  const overlay = document.createElement("div");
+  overlay.style.position = "fixed";
+  overlay.style.inset = "0";
+  overlay.style.background = "radial-gradient(circle at center, rgba(31,110,212,0.35), black 70%)";
+  overlay.style.backdropFilter = "blur(8px)";
+  overlay.style.zIndex = "9999";
+  overlay.style.opacity = "0";
+  overlay.style.transition = "opacity 0.6s ease";
+  document.body.appendChild(overlay);
+
+  // fade in overlay
+  requestAnimationFrame(()=> overlay.style.opacity = "1");
+
+  // reveal shop after cinematic pause
+  setTimeout(()=>{
+    shop.style.display = "block";
+    shop.style.opacity = "0";
+    shop.style.transform = "translateY(60px) scale(0.96)";
+    shop.style.transition = "all 0.8s cubic-bezier(.16,1,.3,1)";
+
+    shop.scrollIntoView({ behavior:"smooth" });
+
+    requestAnimationFrame(()=>{
+      shop.style.opacity = "1";
+      shop.style.transform = "translateY(0) scale(1)";
+    });
+
+    // fade overlay out
+    setTimeout(()=>{
+      overlay.style.opacity = "0";
+      setTimeout(()=> overlay.remove(), 600);
+    },400);
+
+  },700);
 }
-
-/* CART TOGGLE */
-function toggleCart(){
- document.getElementById("cart").classList.toggle("open");
-}
-
-/* 3D CARD TILT */
-document.addEventListener("mousemove",e=>{
- document.querySelectorAll(".card").forEach(card=>{
-   const rect=card.getBoundingClientRect();
-   const x=e.clientX-rect.left;
-   const y=e.clientY-rect.top;
-   const cx=rect.width/2;
-   const cy=rect.height/2;
-   const rx=(y-cy)/15;
-   const ry=(cx-x)/15;
-   card.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;
- });
-});
-
 </script>
-</body>
-</html>
