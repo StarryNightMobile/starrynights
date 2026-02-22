@@ -10,26 +10,35 @@
   --primary: #0B3D78;      /* Deep navy blue */
   --accent: #1F6ED4;       /* Royal blue highlight */
   --muted: #2A4B77;        /* Medium steel blue */
-  --bg: #EEF0F2;           /* Light cool gray background */
+  --bg: #EEF0F2;           /* Light cool gray */
   --card: #FFFFFF;          /* White cards */
   --shadow: rgba(11,61,120,0.12);
 }
 
 body{
-  margin:0;
+  margin: 0;
   font-family:'Segoe UI',sans-serif;
-  background: radial-gradient(circle at top left, #EEF0F2 0%, #E0E7F3 100%);
+  font-weight: 400;
+  font-size:16px;
+  line-height:1.6;
+  background: 
+    radial-gradient(circle at top left, rgba(238,240,242,0.8) 0%, rgba(224,231,243,0.7) 100%),
+    linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2));
+  background-blend-mode: overlay;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-/* Header with gradient + glow */
+/* Header */
 header {
   background: linear-gradient(135deg, var(--primary), var(--accent));
   color: white;
   text-align: center;
-  padding: 25px 15px;
-  box-shadow: 0 4px 15px rgba(11,61,120,0.3);
+  padding: 30px 15px;
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  box-shadow: 0 10px 25px rgba(11,61,120,0.15);
   position: relative;
-  z-index: 1;
 }
 
 header img{height:70px;margin-bottom:10px}
@@ -37,13 +46,14 @@ header img{height:70px;margin-bottom:10px}
 header::after {
   content: '';
   position: absolute;
-  top: -10px; left: -10px; right: -10px; bottom: -10px;
-  background: radial-gradient(circle, rgba(31,110,212,0.15) 0%, transparent 70%);
+  top: -15px; left: -15px; right: -15px; bottom: -15px;
+  background: radial-gradient(circle, rgba(31,110,212,0.12) 0%, transparent 70%);
   z-index: 0;
-  border-radius: 15px;
+  border-radius: 25px;
   pointer-events: none;
 }
 
+/* Controls */
 #controls{
   display:flex;
   gap:10px;
@@ -53,20 +63,19 @@ header::after {
 }
 
 input, select{
-  padding:10px;
-  border-radius:6px;
+  padding:12px;
+  border-radius:10px;
   border:1px solid var(--muted);
-  transition:0.3s;
+  transition: all 0.3s ease;
 }
 
-input:focus, select:focus {
-  outline: none;
+input:focus, select:focus{
   border-color: var(--accent);
-  box-shadow: 0 0 5px var(--accent);
+  box-shadow: 0 0 8px var(--accent);
 }
 
-/* Shop grid with glow behind */
-#shop {
+/* Shop grid */
+#shop{
   position: relative;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
@@ -84,74 +93,54 @@ input:focus, select:focus {
   border-radius: 15px;
 }
 
-/* Cards with hover glow */
+/* Cards */
 .card{
-  background:var(--card);
-  border-radius:12px;
-  padding:15px;
+  background: linear-gradient(145deg, #FFFFFF, #F7F9FC);
+  border-radius: 20px;
+  padding:20px;
   text-align:center;
-  box-shadow:0 5px 15px rgba(11,61,120,0.2);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow:0 10px 20px rgba(11,61,120,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
 }
 
 .card:hover{
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(31,110,212,0.3);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow:0 15px 30px rgba(31,110,212,0.18);
 }
 
-/* Buttons with pulse */
+/* Buttons */
 button{
   border:none;
-  padding:10px;
-  border-radius:6px;
+  padding:12px;
+  border-radius:12px;
   cursor:pointer;
-  font-weight:bold;
+  font-weight:600;
   position: relative;
   z-index: 1;
-  transition:0.3s all;
+  transition: all 0.3s ease;
 }
 
 button.primary{
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   color:white;
 }
 
 button.primary:hover{
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent), 0 0 15px rgba(31,110,212,0.4);
-  animation: pulse 1s infinite alternate;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(31,110,212,0.3);
 }
-
-@keyframes pulse{
-  0% { box-shadow: 0 0 8px var(--accent),0 0 15px rgba(31,110,212,0.4); transform: scale(1);}
-  50% { box-shadow: 0 0 12px var(--accent),0 0 20px rgba(31,110,212,0.5); transform: scale(1.03);}
-  100% { box-shadow: 0 0 8px var(--accent),0 0 15px rgba(31,110,212,0.4); transform: scale(1);}
-}
-
-/* Badges */
-.badge{
-  display:inline-block;
-  padding:4px 8px;
-  border-radius:4px;
-  font-size:12px;
-  margin-bottom:6px;
-  color:white;
-}
-
-.stock{background:var(--primary);}
-.preorder{background:var(--accent);}
 
 /* Cart */
 #cart{
   position:fixed;
   right:20px;
   top:20px;
-  width:260px;
-  background:var(--card);
-  padding:15px;
-  border-radius:12px;
-  box-shadow:0 5px 15px rgba(11,61,120,0.2);
+  width:280px;
+  background: linear-gradient(145deg,#FFFFFF,#F7F9FC);
+  padding:20px;
+  border-radius:20px;
+  box-shadow: 0 12px 25px rgba(11,61,120,0.12);
   max-height:80vh;
   overflow:auto;
 }
@@ -167,12 +156,25 @@ button.primary:hover{
   border:none;
 }
 
+/* Badges (only in cart) */
+.badge{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:8px;
+  font-size:12px;
+  margin-left:6px;
+  color:white;
+}
+
+.stock {background: linear-gradient(135deg, var(--primary), var(--muted));}
+.preorder {background: linear-gradient(135deg, var(--accent), var(--primary));}
+
 /* Admin panel */
 .admin{
   margin:20px;
   padding:20px;
-  background:var(--card);
-  border-radius:12px;
+  background: linear-gradient(145deg,#FFFFFF,#F7F9FC);
+  border-radius:20px;
   box-shadow: 0 5px 15px rgba(11,61,120,0.12);
 }
 
@@ -192,7 +194,6 @@ button.primary:hover{
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -292,17 +293,14 @@ function render(){
   .forEach(p=>{
     const card=document.createElement('div');
     card.className='card';
-    const badge=p.status==='stock'
-      ?'<div class="badge stock">In Stock</div>'
-      :'<div class="badge preorder">Pre Order</div>';
     const storageSelect=`<select class="storage">${storageOptions.map(s=>`<option value="${s}">${s}GB</option>`).join('')}</select>`;
     const colorSelect=`<select class="color">${colors.map(c=>`<option>${c}</option>`).join('')}</select>`;
-    card.innerHTML=`${badge}<h4>${p.name}</h4><p>From $${p.price}</p>${storageSelect}${colorSelect}<button class="primary">Add</button>`;
+    card.innerHTML=`<h4>${p.name}</h4><p>From $${p.price}</p>${storageSelect}${colorSelect}<button class="primary">Add</button>`;
     card.querySelector('button').onclick=()=>{
       const storage=card.querySelector('.storage').value;
       const color=card.querySelector('.color').value;
       const finalPrice=Math.round(p.price*storageMultiplier[storage]);
-      cart.push({name:p.name,price:finalPrice,storage,color});
+      cart.push({name:p.name,price:finalPrice,storage,color,status:p.status});
       localStorage.setItem('cart',JSON.stringify(cart));
       renderCart();
     };
@@ -315,13 +313,14 @@ function renderCart(){
   let total=0;
   cart.forEach((item,i)=>{
     const div=document.createElement('div');
-    div.textContent=`${item.name} ${item.storage}GB ${item.color} - $${item.price}`;
-    const btn=document.createElement('button');
+    const statusBadge = `<span class="badge ${item.status}">${item.status==='stock'?'In Stock':'Pre Order'}</span>`;
+    div.innerHTML = `${item.name} ${item.storage}GB ${item.color} - $${item.price} ${statusBadge}`;
+    const btn = document.createElement('button');
     btn.textContent='x';
-    btn.onclick=()=>{cart.splice(i,1);localStorage.setItem('cart',JSON.stringify(cart));renderCart();};
+    btn.onclick = ()=>{ cart.splice(i,1); localStorage.setItem('cart',JSON.stringify(cart)); renderCart(); };
     div.appendChild(btn);
     cartItems.appendChild(div);
-    total+=item.price;
+    total += item.price;
   });
   totalEl.textContent=total;
   updatePaymentSummary();
