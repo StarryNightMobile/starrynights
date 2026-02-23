@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
 import adminRoutes from './routes/admin.js';
-import authRoutes from './routes/a.js';
+import authRoutes from './routes/auth.js';
 
 dotenv.config();
 
