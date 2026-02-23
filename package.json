@@ -1,19 +1,23 @@
 {
-  "name": "starrymobile",
-  "private": true,
-  "dependencies": {
-    "axios": "^1.13.2",
-    "node-fetch": "^2.6.7",
-    "stripe": "^11.0.0"
-  },
+  "name": "starrynights",
   "version": "1.0.0",
-  "main": "index.js",
-  "devDependencies": {},
+  "private": true,
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "lint": "eslint ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cloudinary": "^2.9.0",
+    "dotenv": "^16.0.0",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.0.1"
+  }
 }
