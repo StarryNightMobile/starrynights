@@ -4,4 +4,11 @@ Environment               Node
 Branch                    main                                   
 Root Directory 
 Build Command             `npm install`                          
-Start Command             `npm start`   
+Start Command             `npm start`  
+
+Key                       Value                   
+JWT_SECRET                supersecretkey          
+MONGO_URI                 your MongoDB Atlas URI  
+CLOUDINARY_CLOUD_NAME     your cloudinary name    
+CLOUDINARY_API_KEY        your cloudinary API key 
+CLOUDINARY_API_SECRET     your cloudinary secret  
