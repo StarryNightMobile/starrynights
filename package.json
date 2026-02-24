@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-  "node": "20.x"
-},
-  "type": "module",
+    "node": "20.x"
+  },
   "scripts": {
     "start": "node index.js",
-"lint": "eslint .",
     "dev": "react-scripts start",
     "build": "react-scripts build"
   },
@@ -20,12 +18,5 @@
     "express-rate-limit": "^7.0.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.0"
-  },
-  "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.0.1",
-    "eslint-plugin-react": "^7.32.0",
-    "eslint-plugin-react-hooks": "^4.6.0"
   }
 }
-
