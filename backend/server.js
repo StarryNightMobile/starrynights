@@ -1,91 +1,96 @@
-require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const multer = require("multer");
-const PDFDocument = require("pdfkit");
-const nodemailer = require("nodemailer");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const helmet = require("helmet");
-const fs = require("fs");
+// server.js - Starry Night Mobiles Backend with full tracking
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors());
 app.use(express.json());
-app.use(helmet());
-app.use(require("cors")());
 
-mongoose.connect(process.env.MONGO_URI);
-
-const OrderSchema = new mongoose.Schema({
-  customerName: String,
-  email: String,
-  phone: String,
-  products: Array,
-  debitNoteNumber: String,
-  trackingNumber: String,
-  debitNoteImage: String,
-  orderLocation: { type: String, default: "Processing" },
-  createdAt: { type: Date, default: Date.now }
-});
-
-const Order = mongoose.model("Order", OrderSchema);
-
-const storage = multer.diskStorage({
-  destination: "./uploads",
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  }
-});
-const upload = multer({ storage });
+const ordersFile = path.join(__dirname, 'orders.json');
+if (!fs.existsSync(ordersFile)) fs.writeFileSync(ordersFile, JSON.stringify([]));
 
 function generateTrackingNumber() {
-  return "TRK-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+  return 'SNM-' + Math.floor(100000 + Math.random() * 900000);
 }
 
-app.post("/api/order", upload.single("debitNote"), async (req, res) => {
+// Create new order
+app.post('/api/order', (req, res) => {
   try {
+    const { customer, items, total, paymentMethod, createdAt } = req.body;
+    if (!customer || !items || items.length === 0 || !total || !paymentMethod)
+      return res.status(400).json({ message: 'Invalid order data' });
+
     const trackingNumber = generateTrackingNumber();
-
-    let debitNoteImage = null;
-
-    if (req.file) {
-      debitNoteImage = req.file.path;
-    }
-
-    const newOrder = new Order({
-      ...req.body,
+    const newOrder = {
       trackingNumber,
-      debitNoteImage
-    });
+      customer,
+      items,
+      total,
+      paymentMethod,
+      createdAt: createdAt || new Date().toISOString(),
+      status: 'Processing',
+      trackingHistory: []
+    };
 
-    await newOrder.save();
+    const orders = JSON.parse(fs.readFileSync(ordersFile));
+    orders.push(newOrder);
+    fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2));
 
-    // Send email
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
-
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: req.body.email,
-      subject: "Your Tracking Number",
-      text: `Your tracking number is ${trackingNumber}`
-    });
-
-    res.json({ success: true, trackingNumber });
-
+    res.json({ trackingNumber });
   } catch (err) {
-    res.status(500).json({ error: "Order failed" });
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-app.get("/api/orders", async (req, res) => {
-  const orders = await Order.find().sort({ createdAt: -1 });
+// Update order with tracking entry
+app.patch('/api/order/:trackingNumber', (req, res) => {
+  try {
+    const { trackingNumber } = req.params;
+    const { status, location, debitNote } = req.body;
+    if (!status && !location && !debitNote)
+      return res.status(400).json({ message: 'No update data provided' });
+
+    const orders = JSON.parse(fs.readFileSync(ordersFile));
+    const order = orders.find(o => o.trackingNumber === trackingNumber);
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+
+    const entry = {
+      timestamp: new Date().toISOString(),
+      status: status || order.status,
+      location: location || null,
+      debitNote: debitNote || null
+    };
+    order.trackingHistory.push(entry);
+    if (status) order.status = status;
+
+    fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2));
+    res.json({ message: 'Tracking updated', trackingEntry: entry });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get single order
+app.get('/api/order/:trackingNumber', (req, res) => {
+  const orders = JSON.parse(fs.readFileSync(ordersFile));
+  const order = orders.find(o => o.trackingNumber === req.params.trackingNumber);
+  if (!order) return res.status(404).json({ message: 'Order not found' });
+  res.json(order);
+});
+
+// Get all orders
+app.get('/api/orders', (req, res) => {
+  const orders = JSON.parse(fs.readFileSync(ordersFile));
   res.json(orders);
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+// Test route
+app.get('/', (req, res) => res.send('Starry Night Mobiles API running...'));
+
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
