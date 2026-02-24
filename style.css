@@ -171,10 +171,19 @@ button.primary:hover{
   box-shadow:0 0 8px var(--accent);
 }
 /* Body background upgrade: subtle radial gradient */
-body {
-  margin:0;
+body{
   font-family:'Segoe UI',sans-serif;
-  background: radial-gradient(circle at top left, #EEF0F2 0%, #E0E7F3 100%);
+  margin:0;
+  color:var(--text);
+
+  background-image:
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+    url("images/background.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 /* Glow behind the shop grid */
 #shop::before {

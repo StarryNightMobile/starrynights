@@ -1,0 +1,30 @@
+[
+  {
+    "trackingNumber": "SNM-123456",
+    "customer": {
+      "name": "Alice",
+      "address": "123 Main St"
+    },
+    "items": [
+      { "name": "Mobile A", "qty": 1, "price": 100 }
+    ],
+    "total": 100,
+    "paymentMethod": "Debit Card",
+    "createdAt": "2026-02-25T12:00:00Z",
+    "status": "In Transit",
+    "trackingHistory": [
+      {
+        "timestamp": "2026-02-25T12:00:00Z",
+        "status": "Shipped",
+        "location": "Warehouse",
+        "debitNote": "DN-001"
+      },
+      {
+        "timestamp": "2026-02-26T09:30:00Z",
+        "status": "In Transit",
+        "location": "Distribution Center",
+        "debitNote": "DN-002"
+      }
+    ]
+  }
+]
