@@ -1,0 +1,140 @@
+/* =========================
+   CHECKOUT PANEL
+========================= */
+#checkoutPanel {
+  position: fixed;
+  right: -400px; /* hidden by default */
+  top: 0;
+  height: 100vh;
+  width: 380px;
+  background: rgba(20,30,60,0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  color: #E6E6E6;
+  padding: 30px;
+  box-shadow: -10px 0 40px rgba(0,0,0,0.8);
+  transition: right 0.5s ease;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+}
+
+#checkoutPanel.active {
+  right: 0;
+}
+
+/* Checkout Header */
+#checkoutPanel h3 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  padding-bottom: 10px;
+}
+
+/* Order Summary */
+#orderSummary {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.order-item span {
+  color: #B0C4DE;
+}
+
+/* Deposit Info */
+#depositInfo {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #00f6ff;
+}
+
+/* Payment Section */
+#paymentSection {
+  display: none; /* hidden until checkout */
+  flex-direction: column;
+  gap: 15px;
+}
+
+#paymentSection label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+#paymentSection input[type="text"],
+#paymentSection input[type="email"] {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(0,0,0,.2);
+  color: #E6E6E6;
+}
+
+#paymentSection button {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #1F6ED4;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(31,110,212,0.5);
+  transition: all 0.3s ease;
+}
+
+#paymentSection button:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(31,110,212,0.7), 0 0 20px rgba(31,110,212,0.6);
+}
+
+/* Success Message */
+#paymentSuccess {
+  display: none;
+  text-align: center;
+  color: #00ffcc;
+  font-size: 18px;
+  margin-top: 20px;
+  animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+/* Close Button */
+#checkoutPanel .closeBtn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #E6E6E6;
+  transition: color 0.3s ease;
+}
+
+#checkoutPanel .closeBtn:hover {
+  color: #1F6ED4;
+}
+
+/* Scrollable Checkout for Mobile */
+@media (max-width: 768px){
+  #checkoutPanel {
+    width: 100%;
+    right: -100%;
+  }
+
+  #checkoutPanel.active {
+    right: 0;
+  }
+}

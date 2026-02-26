@@ -3,249 +3,244 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Starry Night Mobiles</title>
-
+<title>Starry Night Mobiles - Checkout Enabled</title>
+<link rel="stylesheet" href="cleaned-premium-style.css">
 <style>
-:root{
-  --primary:#0B3D78;
-  --highlight:#1F6ED4;
-  --secondary:#2A4B77;
-  --bg:#0A0A0A;
-  --card:#121212;
-  --text:#E6E6E6;
+/* ===================== CHECKOUT PANEL ===================== */
+#checkoutPanel {
+  position:fixed;
+  top:0; right:0;
+  width:400px;
+  max-width:90%;
+  height:100%;
+  background:rgba(10,15,30,.95);
+  color:white;
+  padding:30px;
+  transform:translateX(100%);
+  transition:transform 0.4s ease;
+  z-index:9999;
+  overflow-y:auto;
 }
-
-html,body{margin:0;padding:0;height:100%;background:#000;color:var(--text);font-family:'Segoe UI',sans-serif;overflow-x:hidden;}
-
-#loader{
-  position:fixed;inset:0;background:#000;
-  display:flex;align-items:center;justify-content:center;
-  z-index:5000;transition:opacity .8s ease;
+#checkoutPanel.active {
+  transform:translateX(0);
 }
-.loader-logo{
-  font-size:28px;letter-spacing:3px;
-  color:var(--highlight);
-  animation:pulse 1.5s infinite alternate;
-}
-@keyframes pulse{from{opacity:.4}to{opacity:1}}
-
-#particles{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-}
-
-.glass-header{
-  position:sticky;top:0;z-index:1000;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:18px 28px;
-  background:rgba(10,20,40,.55);
-  backdrop-filter:blur(25px) saturate(140%);
-  border-bottom:1px solid rgba(255,255,255,.08);
-  box-shadow:0 0 40px rgba(31,110,212,.35);
-  transition:.4s ease;
-}
-.glass-header.shrink{padding:12px 28px;background:rgba(10,20,40,.85);}
-
-.btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
-.btn-primary{background:var(--highlight);color:#fff}
-.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.1)}
-
-#hero-section{
-  position:relative;text-align:center;
-  padding:100px 20px 60px;overflow:hidden;
-}
-#hero-section::before{
-  content:"";position:absolute;width:120%;height:120%;
-  top:-10%;left:-10%;
-  background:radial-gradient(circle at 30% 40%,rgba(31,110,212,.4),transparent 60%);
-  animation:moveLight 8s ease-in-out infinite alternate;
-  z-index:0;
-}
-@keyframes moveLight{
-  0%{transform:translateX(-40px) translateY(-20px)}
-  100%{transform:translateX(40px) translateY(20px)}
-}
-.hero-text{position:relative;z-index:1}
-
-#shop-container{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:22px;padding:40px;
-}
-
-.product-card{
-  position:relative;
-  background:rgba(18,18,18,.55);
-  backdrop-filter:blur(20px);
-  border-radius:20px;
-  padding:20px;
+#checkoutPanel h3{
+  margin-bottom:20px;
   text-align:center;
-  border:1px solid rgba(255,255,255,.06);
-  transition:.5s cubic-bezier(.2,.8,.2,1);
-  transform-style:preserve-3d;
 }
-.product-card:hover{
-  box-shadow:0 25px 60px rgba(0,0,0,.7),0 0 40px rgba(31,110,212,.35);
+#checkoutPanel .closeBtn{
+  position:absolute;
+  top:15px; right:15px;
+  background:var(--accent);
+  border:none; color:white;
+  width:30px;height:30px;
+  border-radius:50%;
+  cursor:pointer;
+  font-weight:bold;
 }
-.product-card img{width:140px;height:140px;object-fit:contain}
-.product-card h4{margin:12px 0 6px}
-.product-card p{color:#B0C4DE;font-weight:600}
-
-.reveal{opacity:0;transform:translateY(30px);transition:.8s ease}
-.reveal.active{opacity:1;transform:translateY(0)}
-
-#cart{
-  position:fixed;top:0;right:-360px;width:340px;height:100vh;
-  padding:22px;background:rgba(10,10,10,.98);
-  backdrop-filter:blur(18px);transition:.4s ease;z-index:900;
+#checkoutPanel label{
+  display:block; margin:10px 0 5px;
 }
-#cart.active{right:0}
-
-#checkout-modal{
-  position:fixed;inset:0;display:none;
-  align-items:center;justify-content:center;
-  background:rgba(0,0,0,.7);z-index:1100;
+#checkoutPanel input, #checkoutPanel select{
+  width:100%;
+  padding:8px;
+  margin-bottom:10px;
+  border-radius:6px;
+  border:1px solid var(--accent);
+  background:rgba(255,255,255,.05);
+  color:white;
 }
-.checkout-content{
-  width:92%;max-width:420px;background:rgba(18,18,18,.96);
-  padding:22px;border-radius:14px;backdrop-filter:blur(16px);
-}
-.checkout-content input{
-  width:100%;padding:12px;margin-bottom:10px;
-  border-radius:8px;border:1px solid #333;
-  background:#101010;color:white;
+#paymentSection{ display:none; margin-top:20px; }
+#paymentSection button{ width:100%; margin-top:10px; }
+#successMessage{
+  display:none; text-align:center; margin-top:20px; color:#0f0;
+  font-weight:bold; font-size:18px;
 }
 </style>
 </head>
-
 <body>
 
 <div id="loader"><div class="loader-logo">Starry Night</div></div>
 <canvas id="particles"></canvas>
+<div class="cursor"></div>
+<div class="light-reflection"></div>
 
-<header class="glass-header">
-  <h1>Starry Night Mobiles</h1>
+<header>
+  <h3>Starry Night</h3>
   <div>
     <button class="btn btn-ghost" onclick="scrollToShop()">Shop</button>
-    <button class="btn btn-primary" onclick="toggleCart()">🛒 Cart <span id="cart-count">0</span></button>
+    <button class="btn btn-primary" onclick="openCart()">Cart</button>
   </div>
 </header>
 
-<section id="hero-section">
+<!-- HERO -->
+<section id="hero" class="section">
+  <div class="smoke"></div>
   <div class="hero-text">
-    <h2>Premium Smartphones. Trusted Quality.</h2>
-    <p>Latest models from Apple, Samsung & Google.</p>
+    <h1>Experience the Future</h1>
+    <p>Premium smartphones engineered for performance.</p>
+  </div>
+  <div id="phone-container">
+    <div id="phone"><img src="images/iphone-x.jpg"></div>
   </div>
 </section>
 
-<section id="shop-container"></section>
-
-<aside id="cart">
-  <h3>Your Cart</h3>
-  <div id="cart-items"></div>
-  <p>Total: $<span id="cart-total">0</span></p>
-  <button class="btn btn-primary" onclick="openCheckout()">Checkout</button>
-</aside>
-
-<div id="checkout-modal">
-  <div class="checkout-content">
-    <h3>Checkout</h3>
-    <input id="customer-name" placeholder="Full name">
-    <input id="customer-email" placeholder="Email">
-    <input id="customer-phone" placeholder="Phone">
-    <button class="btn btn-primary" onclick="completePayment()">Pay</button>
+<!-- SHOP -->
+<section id="shop" class="section">
+  <div>
+    <h2 style="margin-bottom:60px">Shop Collection</h2>
+    <div class="products">
+      <div class="card">
+        <img src="images/iphone-x.jpg">
+        <h4>iPhone 15 Pro</h4>
+        <p>$1550</p>
+        <button class="btn btn-primary" onclick="startCheckout('iPhone 15 Pro',1550)">Buy Now</button>
+      </div>
+    </div>
   </div>
+</section>
+
+<!-- CHECKOUT PANEL -->
+<div id="checkoutPanel">
+  <button class="closeBtn" onclick="closeCheckout()">×</button>
+  <h3>Checkout</h3>
+  <div id="orderSummary"></div>
+  <div id="paymentSection">
+    <label for="name">Full Name</label>
+    <input type="text" id="name" placeholder="Your Name" required>
+    <label for="email">Email</label>
+    <input type="email" id="email" placeholder="you@example.com" required>
+    <label for="phone">Phone</label>
+    <input type="text" id="phone" placeholder="0771234567" required>
+    <label for="paymentMethod">Payment Method</label>
+    <select id="paymentMethod">
+      <option value="paynow">Pay Now (70% Deposit)</option>
+      <option value="cash">Cash on Delivery</option>
+    </select>
+    <button class="btn btn-primary" onclick="processPayment()">Confirm Order</button>
+  </div>
+  <div id="successMessage">Thank you! Your order has been received.</div>
 </div>
 
 <script>
-const products=[
-{id:1,name:'iPhone 15 Pro',price:1550,img:'https://via.placeholder.com/150'},
-{id:2,name:'Galaxy S24 Ultra',price:1000,img:'https://via.placeholder.com/150'},
-{id:3,name:'Pixel 9 Pro',price:1040,img:'https://via.placeholder.com/150'}
-];
+/* ===================== CHECKOUT LOGIC ===================== */
+let currentProduct = '';
+let currentPrice = 0;
 
-const shop=document.getElementById('shop-container');
-let cart=[];
-
-function renderProducts(){
-shop.innerHTML='';
-products.forEach(p=>{
-const card=document.createElement('div');
-card.className='product-card reveal';
-
-card.innerHTML=`
-<img src="${p.img}">
-<h4>${p.name}</h4>
-<p>$${p.price}</p>
-<button class="btn btn-primary">Add to Cart</button>
-`;
-
-card.querySelector('button').onclick=()=>addToCart(p);
-shop.appendChild(card);
-});
+function startCheckout(product, price){
+  currentProduct = product;
+  currentPrice = price;
+  document.getElementById('checkoutPanel').classList.add('active');
+  document.getElementById('orderSummary').innerHTML =
+    `<p><strong>Product:</strong> ${product}</p>
+     <p><strong>Total:</strong> $${price}</p>
+     <p><strong>Deposit (70%):</strong> $${(price*0.7).toFixed(2)}</p>`;
+  document.getElementById('paymentSection').style.display='block';
 }
-renderProducts();
 
-function addToCart(p){cart.push(p);renderCart();}
-function renderCart(){
-document.getElementById('cart-items').innerHTML=cart.map(i=>`${i.name} - $${i.price}`).join('<br>');
-document.getElementById('cart-total').textContent=cart.reduce((s,i)=>s+i.price,0);
-document.getElementById('cart-count').textContent=cart.length;
+function closeCheckout(){
+  document.getElementById('checkoutPanel').classList.remove('active');
+  document.getElementById('paymentSection').style.display='none';
+  document.getElementById('successMessage').style.display='none';
 }
-function toggleCart(){document.getElementById('cart').classList.toggle('active')}
-function openCheckout(){document.getElementById('checkout-modal').style.display='flex'}
-function completePayment(){alert('Payment Successful');cart=[];renderCart();document.getElementById('checkout-modal').style.display='none'}
 
-function scrollToShop(){document.getElementById('shop-container').scrollIntoView({behavior:'smooth'})}
+/* PROCESS PAYMENT (NETLIFY FUNCTION) */
+function processPayment(){
+  const method=document.getElementById('paymentMethod').value;
+  const name=document.getElementById('name').value;
+  const email=document.getElementById('email').value;
+  const phone=document.getElementById('phone').value;
 
-window.addEventListener("scroll",()=>{
-document.querySelector('.glass-header')
-.classList.toggle('shrink',window.scrollY>50);
-});
+  if(!name || !email || !phone){ alert('Please fill all fields'); return;}
 
+  if(method==='paynow'){
+    fetch('/.netlify/functions/paynow',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        product: currentProduct,
+        amount: (currentPrice*0.7).toFixed(2),
+        name, email, phone
+      })
+    })
+    .then(res=>res.json())
+    .then(data=>{
+      console.log('Payment response:',data);
+      showSuccess();
+    })
+    .catch(err=>{
+      console.error(err);
+      alert('Payment failed, try again');
+    });
+  } else if(method==='cash'){
+    console.log('Cash order:',{name,email,phone,product:currentProduct});
+    showSuccess();
+  }
+}
+
+function showSuccess(){
+  document.getElementById('paymentSection').style.display='none';
+  document.getElementById('successMessage').style.display='block';
+  setTimeout(()=>{ window.location.href='thankyou.html'; },2000);
+}
+
+/* ===================== OTHER PREMIUM UI ===================== */
+/* Loader */
 window.addEventListener("load",()=>{
-const loader=document.getElementById("loader");
-loader.style.opacity="0";
-setTimeout(()=>loader.remove(),800);
+  const loader=document.getElementById("loader");
+  loader.style.opacity="0";
+  setTimeout(()=>loader.remove(),800);
 });
 
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('active')});
-});
-setTimeout(()=>{
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-},200);
-
-document.querySelectorAll('.product-card').forEach(card=>{
-card.addEventListener('mousemove',e=>{
-const r=card.getBoundingClientRect();
-const x=e.clientX-r.left;
-const y=e.clientY-r.top;
-card.style.transform=`rotateX(${((y/r.height)-.5)*-12}deg) rotateY(${((x/r.width)-.5)*12}deg) scale(1.03)`;
-});
-card.addEventListener('mouseleave',()=>card.style.transform='');
+/* Header shrink */
+window.addEventListener("scroll",()=>{
+  document.querySelector("header").classList.toggle("shrink",window.scrollY>50);
 });
 
+/* Cursor */
+const cursor=document.querySelector(".cursor");
+document.addEventListener("mousemove",e=>{
+  cursor.style.left=e.clientX+"px";
+  cursor.style.top=e.clientY+"px";
+});
+
+/* Particles */
 const canvas=document.getElementById("particles");
 const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-let particles=Array.from({length:60},()=>({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*2,
-s:Math.random()*0.5+.2
-}));
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="rgba(31,110,212,.6)";
-particles.forEach(p=>{
-p.y-=p.s;if(p.y<0)p.y=canvas.height;
-ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let particles=[];
+document.addEventListener("mousemove",e=>{
+  particles.push({x:e.clientX,y:e.clientY,size:Math.random()*4+1,alpha:1});
 });
-requestAnimationFrame(animate);
+function animateParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach((p,i)=>{
+    p.alpha-=0.02;
+    p.size*=0.97;
+    if(p.alpha<=0)particles.splice(i,1);
+    ctx.fillStyle=`rgba(31,110,212,${p.alpha})`;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
+  });
+  requestAnimationFrame(animateParticles);
 }
-animate();
-</script>
+animateParticles();
 
+/* Shop scroll */
+function scrollToShop(){
+  document.getElementById("shop").scrollIntoView({behavior:"smooth"});
+}
+
+/* 3D phone rotation */
+const phone=document.getElementById("phone");
+document.getElementById("phone-container").addEventListener("mousemove",e=>{
+  const rect=e.currentTarget.getBoundingClientRect();
+  const x=e.clientX-rect.left; const y=e.clientY-rect.top;
+  const rotateY=(x/rect.width-0.5)*20; const rotateX=(y/rect.height-0.5)*-20;
+  phone.style.transform=`rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+});
+document.getElementById("phone-container").addEventListener("mouseleave",()=>{phone.style.transform='rotateX(0deg) rotateY(0deg)';});
+</script> 
+  }
 </body>
-</html>
+</html>/
