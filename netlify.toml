@@ -1,5 +1,4 @@
 [build]
-base = "backend"
   command = "npm install"
     publish = "."
 
