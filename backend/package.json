@@ -20,5 +20,8 @@
     "express-rate-limit": "^7.0.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.0"
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.1"
   }
 }
