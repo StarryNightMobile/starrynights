@@ -1,452 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Starry Night Mobiles</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starry Night Mobiles</title>
 
-  <style>
-    :root{
-      --primary:#0B3D78;
-      --highlight:#1F6ED4;
-      --secondary:#2A4B77;
-      --bg:#0A0A0A;
-      --card:#121212;
-      --white:#FFFFFF;
-      --text:#E6E6E6;
-    }
+<style>
+:root{
+  --primary:#0B3D78;
+  --highlight:#1F6ED4;
+  --secondary:#2A4B77;
+  --bg:#0A0A0A;
+  --card:#121212;
+  --text:#E6E6E6;
+}
 
-    /* Page background & cinematic overlay */
-    html,body{height:100%;}
-    body{
-      font-family:'Segoe UI',sans-serif;
-      margin:0;
-      color:var(--text);
-      background:
-        linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.95)),
-        url("images/background.png");
-      background-size:cover;
-      background-position:center;
-      background-attachment:fixed;
-    }
+html,body{margin:0;padding:0;height:100%;background:#000;color:var(--text);font-family:'Segoe UI',sans-serif;overflow-x:hidden;}
 
-    /* subtle animated overlay using the same image for depth */
-    .smoke-overlay{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background: url("images/background.png") center/cover no-repeat;
-      opacity:0.08;
-      filter:blur(10px) saturate(80%);
-      transform-origin:center;
-      animation: floatSlow 40s infinite alternate linear;
-      z-index:0;
-    }
+#loader{
+  position:fixed;inset:0;background:#000;
+  display:flex;align-items:center;justify-content:center;
+  z-index:5000;transition:opacity .8s ease;
+}
+.loader-logo{
+  font-size:28px;letter-spacing:3px;
+  color:var(--highlight);
+  animation:pulse 1.5s infinite alternate;
+}
+@keyframes pulse{from{opacity:.4}to{opacity:1}}
 
-    @keyframes floatSlow{
-      0%{ transform: scale(1) translateY(0); }
-      100%{ transform: scale(1.03) translateY(-18px); }
-    }
+#particles{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+}
 
-    /* site content sits above overlay */
-    .site-content{ position:relative; z-index:1; }
+.glass-header{
+  position:sticky;top:0;z-index:1000;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 28px;
+  background:rgba(10,20,40,.55);
+  backdrop-filter:blur(25px) saturate(140%);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  box-shadow:0 0 40px rgba(31,110,212,.35);
+  transition:.4s ease;
+}
+.glass-header.shrink{padding:12px 28px;background:rgba(10,20,40,.85);}
 
-    /* header */
-    header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:18px 28px;
-      background:linear-gradient(135deg,#0B3D78,#2A4B77);
-      color:white;
-      box-shadow:0 0 30px rgba(31,110,212,0.35);
-      border-bottom-left-radius:8px;
-      border-bottom-right-radius:8px;
-    }
+.btn{padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+.btn-primary{background:var(--highlight);color:#fff}
+.btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.1)}
 
-    header h1{ margin:0; font-size:20px; }
+#hero-section{
+  position:relative;text-align:center;
+  padding:100px 20px 60px;overflow:hidden;
+}
+#hero-section::before{
+  content:"";position:absolute;width:120%;height:120%;
+  top:-10%;left:-10%;
+  background:radial-gradient(circle at 30% 40%,rgba(31,110,212,.4),transparent 60%);
+  animation:moveLight 8s ease-in-out infinite alternate;
+  z-index:0;
+}
+@keyframes moveLight{
+  0%{transform:translateX(-40px) translateY(-20px)}
+  100%{transform:translateX(40px) translateY(20px)}
+}
+.hero-text{position:relative;z-index:1}
 
-    header .header-actions{ display:flex; gap:10px; align-items:center; }
-    header .btn{ padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
-    .btn-primary{ background:var(--highlight); color:white; }
-    .btn-ghost{ background:transparent; color:white; border:1px solid rgba(255,255,255,0.08);} 
+#shop-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:22px;padding:40px;
+}
 
-    /* hero */
-    #hero-section{ text-align:center; padding:48px 20px 24px; }
-    .hero-text h2{ font-size:28px; margin:0 0 8px; }
-    .hero-text p{ color:#B0C4DE; margin:0; }
+.product-card{
+  position:relative;
+  background:rgba(18,18,18,.55);
+  backdrop-filter:blur(20px);
+  border-radius:20px;
+  padding:20px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,.06);
+  transition:.5s cubic-bezier(.2,.8,.2,1);
+  transform-style:preserve-3d;
+}
+.product-card:hover{
+  box-shadow:0 25px 60px rgba(0,0,0,.7),0 0 40px rgba(31,110,212,.35);
+}
+.product-card img{width:140px;height:140px;object-fit:contain}
+.product-card h4{margin:12px 0 6px}
+.product-card p{color:#B0C4DE;font-weight:600}
 
-    /* filters */
-    #filters{ display:flex; justify-content:center; gap:12px; padding:18px 12px; }
-    select,input{ padding:10px; border-radius:8px; border:1px solid #333; background:rgba(20,20,20,0.85); color:white; }
+.reveal{opacity:0;transform:translateY(30px);transition:.8s ease}
+.reveal.active{opacity:1;transform:translateY(0)}
 
-    /* shop grid */
-    #shop-container{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:22px; padding:26px; }
+#cart{
+  position:fixed;top:0;right:-360px;width:340px;height:100vh;
+  padding:22px;background:rgba(10,10,10,.98);
+  backdrop-filter:blur(18px);transition:.4s ease;z-index:900;
+}
+#cart.active{right:0}
 
-    .product-card{
-      background:rgba(18,18,18,0.65);
-      backdrop-filter:blur(14px);
-      border-radius:16px;
-      padding:18px;
-      text-align:center;
-      transition:transform .35s ease, box-shadow .35s ease;
-      border:1px solid rgba(255,255,255,0.05);
-    }
-
-    .product-card:hover{ transform:translateY(-8px); box-shadow:0 18px 40px rgba(0,0,0,0.6), 0 0 25px rgba(31,110,212,0.25); }
-    .product-card img{ width:140px; height:140px; object-fit:contain; }
-    .product-card h4{ margin:12px 0 6px; }
-    .product-card p{ color:#B0C4DE; font-weight:600; }
-    .product-card .add-btn{ margin-top:12px; width:100%; padding:10px; border-radius:10px; border:none; cursor:pointer; background:linear-gradient(135deg,var(--primary),var(--secondary)); color:white; }
-
-    /* sliding cart */
-    #cart{ position:fixed; top:0; right:-360px; width:340px; height:100vh; padding:22px; background:rgba(10,10,10,0.98); backdrop-filter:blur(18px); transition:right .38s ease; z-index:900; box-shadow: -20px 0 40px rgba(0,0,0,0.6); }
-    #cart.active{ right:0; }
-    #cart h3{ margin-top:0; }
-    #cart-items{ margin:14px 0 24px; max-height:60vh; overflow:auto; }
-    #cart-items .cart-row{ display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; }
-    #cart .cart-actions{ display:flex; gap:10px; }
-    #cart .btn{ width:100%; }
-
-    /* checkout modal */
-    #checkout-modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.7); z-index:1100; }
-    .checkout-content{ width:92%; max-width:420px; background:rgba(18,18,18,0.96); padding:22px; border-radius:14px; backdrop-filter:blur(16px); box-shadow:0 18px 60px rgba(0,0,0,0.6); }
-    .checkout-content h3{ margin-top:0; }
-    .checkout-content input{ width:100%; padding:12px; margin-bottom:10px; border-radius:8px; border:1px solid #333; background:#101010; color:white; }
-    .checkout-content .secondary{ background:#222; }
-    .checkout-content .pay-method{ display:flex; gap:8px; margin-top:8px; }
-
-    /* responsive tweaks */
-    @media(max-width:720px){ header{ padding:14px; } #shop-container{ padding:16px; } #cart{ width:92%; } }
-  </style>
+#checkout-modal{
+  position:fixed;inset:0;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(0,0,0,.7);z-index:1100;
+}
+.checkout-content{
+  width:92%;max-width:420px;background:rgba(18,18,18,.96);
+  padding:22px;border-radius:14px;backdrop-filter:blur(16px);
+}
+.checkout-content input{
+  width:100%;padding:12px;margin-bottom:10px;
+  border-radius:8px;border:1px solid #333;
+  background:#101010;color:white;
+}
+</style>
 </head>
 
 <body>
-  <!-- cinematic overlay (subtle animated layer) -->
-  <div class="smoke-overlay" aria-hidden="true"></div>
 
-  <div class="site-content">
+<div id="loader"><div class="loader-logo">Starry Night</div></div>
+<canvas id="particles"></canvas>
 
-    <header>
-      <h1>Starry Night Mobiles</h1>
-      <div class="header-actions">
-        <button class="btn btn-ghost" onclick="scrollToShop()">Shop</button>
-        <button class="btn btn-primary" onclick="toggleCart()">🛒 Cart <span id="cart-count" style="margin-left:8px;opacity:.9">0</span></button>
-      </div>
-    </header>
-
-    <main>
-      <section id="hero-section">
-        <div class="hero-text">
-          <h2>Premium Smartphones. Trusted Quality.</h2>
-          <p>Latest models from Apple, Samsung & Google — handpicked and quality checked.</p>
-        </div>
-      </section>
-
-      <div id="filters">
-        <select id="brand-filter" aria-label="Filter by brand">
-          <option value="All">All Brands</option>
-          <option value="Apple">Apple</option>
-          <option value="Samsung">Samsung</option>
-          <option value="Google">Google</option>
-        </select>
-        <input id="search-bar" type="text" placeholder="Search model..." aria-label="Search models">
-      </div>
-
-      <section id="shop-container" aria-live="polite"></section>
-
-    </main>
-
+<header class="glass-header">
+  <h1>Starry Night Mobiles</h1>
+  <div>
+    <button class="btn btn-ghost" onclick="scrollToShop()">Shop</button>
+    <button class="btn btn-primary" onclick="toggleCart()">🛒 Cart <span id="cart-count">0</span></button>
   </div>
+</header>
 
-  <!-- Sliding cart panel -->
-  <aside id="cart" aria-hidden="true" aria-label="Shopping cart">
-    <h3>Your Cart</h3>
-    <div id="cart-items"></div>
-    <p style="font-weight:700">Total: $<span id="cart-total">0</span></p>
-    <div class="cart-actions">
-      <button class="btn btn-ghost" onclick="toggleCart()">Continue shopping</button>
-      <button class="btn btn-primary" onclick="openCheckout()">Checkout</button>
-    </div>
-  </aside>
-
-  <!-- Checkout modal (hidden until checkout triggered) -->
-  <div id="checkout-modal" role="dialog" aria-modal="true">
-    <div class="checkout-content">
-      <h3>Checkout</h3>
-
-      <div id="checkout-details">
-        <input id="customer-name" type="text" placeholder="Full name" required />
-        <input id="customer-email" type="email" placeholder="Email address" required />
-        <input id="customer-phone" type="tel" placeholder="Phone number" required />
-        <button class="btn btn-primary" onclick="proceedToPayment()">Proceed to Payment</button>
-        <button class="btn secondary" onclick="closeCheckout()" style="margin-top:6px;">Cancel</button>
-      </div>
-
-      <div id="payment-options" style="display:none;">
-        <h4>Select payment method</h4>
-        <div class="pay-method">
-          <button class="btn btn-primary" onclick="completePayment('EcoCash')">EcoCash</button>
-          <button class="btn btn-ghost" onclick="completePayment('Card')">Debit / Credit Card</button>
-        </div>
-        <p style="margin-top:12px;color:#bbb;font-size:13px">After selecting a method we'll simulate a secure payment step, then create your order.</p>
-      </div>
-
-    </div>
+<section id="hero-section">
+  <div class="hero-text">
+    <h2>Premium Smartphones. Trusted Quality.</h2>
+    <p>Latest models from Apple, Samsung & Google.</p>
   </div>
+</section>
 
-  <script>
-    // --- Data & elements ---
-    const products = [
-      { id: 1, name: 'iPhone 15 Pro', price: 1550, img: 'https://via.placeholder.com/150', brand: 'Apple' },
-      { id: 2, name: 'Galaxy S24 Ultra', price: 1000, img: 'https://via.placeholder.com/150', brand: 'Samsung' },
-      { id: 3, name: 'Pixel 9 Pro', price: 1040, img: 'https://via.placeholder.com/150', brand: 'Google' }
-    ];
+<section id="shop-container"></section>
 
-    const shop = document.getElementById('shop-container');
-    const cartItemsEl = document.getElementById('cart-items');
-    const cartTotalEl = document.getElementById('cart-total');
-    const cartCountEl = document.getElementById('cart-count');
+<aside id="cart">
+  <h3>Your Cart</h3>
+  <div id="cart-items"></div>
+  <p>Total: $<span id="cart-total">0</span></p>
+  <button class="btn btn-primary" onclick="openCheckout()">Checkout</button>
+</aside>
 
-    let cart = [];
+<div id="checkout-modal">
+  <div class="checkout-content">
+    <h3>Checkout</h3>
+    <input id="customer-name" placeholder="Full name">
+    <input id="customer-email" placeholder="Email">
+    <input id="customer-phone" placeholder="Phone">
+    <button class="btn btn-primary" onclick="completePayment()">Pay</button>
+  </div>
+</div>
 
-    // --- Rendering products (uses DOM methods to avoid inline onclick issues) ---
-    function renderProducts(){
-      const brand = document.getElementById('brand-filter').value;
-      const search = document.getElementById('search-bar').value.toLowerCase();
+<script>
+const products=[
+{id:1,name:'iPhone 15 Pro',price:1550,img:'https://via.placeholder.com/150'},
+{id:2,name:'Galaxy S24 Ultra',price:1000,img:'https://via.placeholder.com/150'},
+{id:3,name:'Pixel 9 Pro',price:1040,img:'https://via.placeholder.com/150'}
+];
 
-      shop.innerHTML = '';
+const shop=document.getElementById('shop-container');
+let cart=[];
 
-      const filtered = products.filter(p =>
-        (brand === 'All' || p.brand === brand) && p.name.toLowerCase().includes(search)
-      );
+function renderProducts(){
+shop.innerHTML='';
+products.forEach(p=>{
+const card=document.createElement('div');
+card.className='product-card reveal';
 
-      filtered.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
+card.innerHTML=`
+<img src="${p.img}">
+<h4>${p.name}</h4>
+<p>$${p.price}</p>
+<button class="btn btn-primary">Add to Cart</button>
+`;
 
-        const img = document.createElement('img'); img.src = p.img; img.alt = p.name;
-        const title = document.createElement('h4'); title.textContent = p.name;
-        const price = document.createElement('p'); price.textContent = '$' + p.price;
-        const btn = document.createElement('button'); btn.className = 'add-btn'; btn.textContent = 'Add to Cart';
+card.querySelector('button').onclick=()=>addToCart(p);
+shop.appendChild(card);
+});
+}
+renderProducts();
 
-        btn.addEventListener('click', () => addToCart(p));
+function addToCart(p){cart.push(p);renderCart();}
+function renderCart(){
+document.getElementById('cart-items').innerHTML=cart.map(i=>`${i.name} - $${i.price}`).join('<br>');
+document.getElementById('cart-total').textContent=cart.reduce((s,i)=>s+i.price,0);
+document.getElementById('cart-count').textContent=cart.length;
+}
+function toggleCart(){document.getElementById('cart').classList.toggle('active')}
+function openCheckout(){document.getElementById('checkout-modal').style.display='flex'}
+function completePayment(){alert('Payment Successful');cart=[];renderCart();document.getElementById('checkout-modal').style.display='none'}
 
-        card.appendChild(img);
-        card.appendChild(title);
-        card.appendChild(price);
-        card.appendChild(btn);
+function scrollToShop(){document.getElementById('shop-container').scrollIntoView({behavior:'smooth'})}
 
-        shop.appendChild(card);
-      });
+window.addEventListener("scroll",()=>{
+document.querySelector('.glass-header')
+.classList.toggle('shrink',window.scrollY>50);
+});
 
-      if(filtered.length === 0){
-        const empty = document.createElement('p');
-        empty.style.textAlign = 'center';
-        empty.style.color = '#bdbdbd';
-        empty.textContent = 'No products found.';
-        shop.appendChild(empty);
-      }
-    }
+window.addEventListener("load",()=>{
+const loader=document.getElementById("loader");
+loader.style.opacity="0";
+setTimeout(()=>loader.remove(),800);
+});
 
-    // --- Cart functions ---
-    function addToCart(product){
-      cart.push(Object.assign({}, product));
-      renderCart();
-    }
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('active')});
+});
+setTimeout(()=>{
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+},200);
 
-    function renderCart(){
-      cartItemsEl.innerHTML = '';
-      cart.forEach((item, i) => {
-        const row = document.createElement('div'); row.className = 'cart-row';
-        const label = document.createElement('div'); label.textContent = item.name + ' - $' + item.price;
-        const removeBtn = document.createElement('button'); removeBtn.textContent = 'Remove'; removeBtn.className = 'btn btn-ghost';
-        removeBtn.style.padding = '6px 8px';
-        removeBtn.addEventListener('click', () => { removeFromCart(i); });
-        row.appendChild(label); row.appendChild(removeBtn);
-        cartItemsEl.appendChild(row);
-      });
+document.querySelectorAll('.product-card').forEach(card=>{
+card.addEventListener('mousemove',e=>{
+const r=card.getBoundingClientRect();
+const x=e.clientX-r.left;
+const y=e.clientY-r.top;
+card.style.transform=`rotateX(${((y/r.height)-.5)*-12}deg) rotateY(${((x/r.width)-.5)*12}deg) scale(1.03)`;
+});
+card.addEventListener('mouseleave',()=>card.style.transform='');
+});
 
-      const total = cart.reduce((s, it) => s + Number(it.price || 0), 0);
-      cartTotalEl.textContent = total;
-      cartCountEl.textContent = cart.length;
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+let particles=Array.from({length:60},()=>({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2,
+s:Math.random()*0.5+.2
+}));
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(31,110,212,.6)";
+particles.forEach(p=>{
+p.y-=p.s;if(p.y<0)p.y=canvas.height;
+ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+});
+requestAnimationFrame(animate);
+}
+animate();
+</script>
 
-      // accessibility: show a message if empty
-      if(cart.length === 0){
-        cartItemsEl.innerHTML = '<p style="color:#bbb">Your cart is empty.</p>';
-      }
-    }
-
-    function removeFromCart(index){ cart.splice(index,1); renderCart(); }
-
-    function toggleCart(){ document.getElementById('cart').classList.toggle('active'); }
-
-    // --- Checkout flow ---
-    function openCheckout(){
-      if(cart.length === 0){ alert('Your cart is empty. Add items before checking out.'); return; }
-      document.getElementById('checkout-modal').style.display = 'flex';
-      document.getElementById('checkout-details').style.display = 'block';
-      document.getElementById('payment-options').style.display = 'none';
-    }
-
-    function closeCheckout(){ document.getElementById('checkout-modal').style.display = 'none'; }
-
-    function proceedToPayment(){
-      const name = document.getElementById('customer-name').value.trim();
-      const email = document.getElementById('customer-email').value.trim();
-      const phone = document.getElementById('customer-phone').value.trim();
-
-      if(!name || !email || !phone){ alert('Please complete name, email, and phone.'); return; }
-
-      // store details temporarily on the window for later order submission
-      window.checkoutCustomer = { name, email, phone };
-
-      document.getElementById('checkout-details').style.display = 'none';
-      document.getElementById('payment-options').style.display = 'block';
-    }
-
-    async function completePayment(method){
-      // Simple simulated flow: in production wire this to real payment gateway
-      try{
-        const methodFriendly = method || 'Unknown';
-        // show a quick simulated processing UI
-        const original = event?.target?.textContent;
-        event.target.textContent = 'Processing...';
-        event.target.disabled = true;
-
-        await new Promise(r => setTimeout(r, 1100)); // simulate network
-
-        // submit order to backend (placeholder) - replace URL with your API endpoint
-        const orderPayload = {
-          customer: window.checkoutCustomer || {},
-          items: cart,
-          total: cart.reduce((s,i)=>s + Number(i.price||0),0),
-          paymentMethod: methodFriendly,
-          createdAt: new Date().toISOString()
-        };
-
-        // NOTE: update this endpoint to your real backend when available
-        let tracking = 'SIMULATED-' + Math.floor(Math.random()*900000 + 100000);
-
-        // try to post to backend, but don't fail the UX if backend is unavailable
-        try{
-          const res = await fetch('/api/order', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(orderPayload) });
-          if(res.ok){
-            const data = await res.json();
-            if(data && data.trackingNumber) tracking = data.trackingNumber;
-          }
-        }catch(e){
-          // backend not available — continue with simulated tracking
-          console.warn('Order submission failed, using simulated tracking.', e);
-        }
-
-        alert('Payment successful. Tracking number: ' + tracking);
-
-        // reset cart + close
-        cart = [];
-        renderCart();
-        closeCheckout();
-
-      }catch(err){
-        console.error(err);
-        alert('Payment failed. Please try again.');
-      } finally{
-        if(event && event.target){ event.target.disabled = false; event.target.textContent = original || 'Pay'; }
-      }
-    }
-
-    // small helper to scroll shops
-    function scrollToShop(){ document.getElementById('shop-container').scrollIntoView({behavior:'smooth'}); }
-
-    // wire up filters/search
-    document.getElementById('brand-filter').addEventListener('change', renderProducts);
-    document.getElementById('search-bar').addEventListener('input', renderProducts);
-
-    // initial render
-    renderProducts();
-    renderCart();
-  </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cinematic Premium Page</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- Header -->
-  <header class="glass-header">
-    <img src="images/logo.png" alt="Logo" class="logo">
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Products</a>
-      <a href="#">Contact</a>
-    </nav>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-smoke"></div>
-    <div class="hero-content">
-      <h1>Experience Cinematic Premium</h1>
-      <p>Subtle motion, glass effects, and cinematic smoke.</p>
-    </div>
-  </section>
-
-  <!-- Product Cards -->
-  <section class="products">
-    <div class="product-card">
-      <div class="smoke-layer layer1"></div>
-      <div class="smoke-layer layer2"></div>
-      <div class="smoke-layer layer3"></div>
-
-      <div class="product-content">
-        <h2>iPhone X</h2>
-        <p>Premium cinematic experience</p>
-      </div>
-    </div>
-    <!-- Add more product cards here if needed -->
-  </section>
-
-  <!-- JavaScript for header shrink & card parallax -->
-  <script>
-    // Glass header shrink on scroll
-    const header = document.querySelector('.glass-header');
-    window.addEventListener('scroll', () => {
-      if(window.scrollY > 50) header.classList.add('shrink');
-      else header.classList.remove('shrink');
-    });
-
-    // Mouse parallax for smoke layers
-    const cards = document.querySelectorAll('.product-card');
-    cards.forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const offsetX = (x - centerX) / centerX;
-        const offsetY = (y - centerY) / centerY;
-
-        const layers = card.querySelectorAll('.smoke-layer');
-        layers.forEach((layer, index) => {
-          const movement = (index + 1) * 5;
-          const moveX = offsetX * movement;
-          const moveY = offsetY * movement;
-          layer.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        });
-      });
-
-      card.addEventListener('mouseleave', () => {
-        const layers = card.querySelectorAll('.smoke-layer');
-        layers.forEach(layer => layer.style.transform = 'translate(0,0)');
-      });
-    });
-  </script>
 </body>
 </html>
