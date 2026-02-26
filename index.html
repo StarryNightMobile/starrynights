@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Starry Night Mobiles</title>
+  <link rel="stylesheet" href="style.css">
 
   <style>
     :root{
@@ -365,6 +366,87 @@
     // initial render
     renderProducts();
     renderCart();
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinematic Premium Page</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="glass-header">
+    <img src="images/logo.png" alt="Logo" class="logo">
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Products</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-smoke"></div>
+    <div class="hero-content">
+      <h1>Experience Cinematic Premium</h1>
+      <p>Subtle motion, glass effects, and cinematic smoke.</p>
+    </div>
+  </section>
+
+  <!-- Product Cards -->
+  <section class="products">
+    <div class="product-card">
+      <div class="smoke-layer layer1"></div>
+      <div class="smoke-layer layer2"></div>
+      <div class="smoke-layer layer3"></div>
+
+      <div class="product-content">
+        <h2>iPhone X</h2>
+        <p>Premium cinematic experience</p>
+      </div>
+    </div>
+    <!-- Add more product cards here if needed -->
+  </section>
+
+  <!-- JavaScript for header shrink & card parallax -->
+  <script>
+    // Glass header shrink on scroll
+    const header = document.querySelector('.glass-header');
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 50) header.classList.add('shrink');
+      else header.classList.remove('shrink');
+    });
+
+    // Mouse parallax for smoke layers
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const offsetX = (x - centerX) / centerX;
+        const offsetY = (y - centerY) / centerY;
+
+        const layers = card.querySelectorAll('.smoke-layer');
+        layers.forEach((layer, index) => {
+          const movement = (index + 1) * 5;
+          const moveX = offsetX * movement;
+          const moveY = offsetY * movement;
+          layer.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        const layers = card.querySelectorAll('.smoke-layer');
+        layers.forEach(layer => layer.style.transform = 'translate(0,0)');
+      });
+    });
   </script>
 </body>
 </html>

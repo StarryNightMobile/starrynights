@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Replace with your forwarded Codespace URL
-BASE_URL="https://5000-<your-codespace-id>.githubpreview.dev"
+BASE_URL="https://5000-sturdy-rotary-phone-v69ggx7v7vg92p9w4.githubpreview.dev"
 
 echo "=== Creating a new order ==="
 CREATE_RESPONSE=$(curl -s -X POST "$BASE_URL/api/order" \
